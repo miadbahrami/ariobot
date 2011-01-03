@@ -3,7 +3,7 @@
 import socket
 from xgoogle.translate import Translator
 
-username = "s-h-i-t"
+username = "gholam"
 channel = "#harchi"
 network = 'irc.freenode.net'
 port = 6667
@@ -39,9 +39,8 @@ while True:
 
                 be = lang[-2:]
                 az = lang[1:3]
-                irc.send('PRIVMSG ' + channel + ' :' + who + ', ' + Translator().translate(ebarat, be, az) + '\r\n')
+                irc.send('PRIVMSG ' + channel + ' :' + who + ', ' + Translator().translate(ebarat, be, az).encode("utf-8") + '\r\n')
                 print Translator().translate(ebarat, be, az)
-
 
     print data
     print str(counter) + ")=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"
