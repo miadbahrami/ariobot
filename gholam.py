@@ -28,6 +28,7 @@ while True:
     elif data.find('PRIVMSG ' + channel) != -1:
 
 # ---------- Translate
+#----------- test2
 
         if data.find(':.') != -1:
             lod = data.split(":")
