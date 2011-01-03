@@ -4,6 +4,7 @@ from xgoogle.search import GoogleSearch, SearchError
 from xgoogle.translate import Translator
 
 # --------- connect
+# --------- test
 
 username = "gholam"
 channel = "#harchi"
