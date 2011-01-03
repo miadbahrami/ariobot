@@ -1,6 +1,5 @@
 import socket
 import foshes
-from xgoogle.search import GoogleSearch, SearchError
 from xgoogle.translate import Translator
 
 # --------- connect
@@ -30,7 +29,7 @@ while True:
     data = irc.recv(4096)
     
     if data.find('PING') != -1:
-        
+
         pinger = data.split()[1]
         irc.send('PONG ' + pinger + cr)
         print 'PONG ' + pinger + cr
@@ -87,26 +86,14 @@ while True:
             lod = data.split(":")
             who = lod[1].split("!")[0]
             lang = lod[2].split(" ")[0]
+            
             ebarat = ' '.join(lod[2].split(" ")[1: ])
             if ebarat.endswith(cr):
                 ebarat = ebarat[:-2]
             try:
-                if lang == ".w":
-                    try:
-                        gs = GoogleSearch(ebarat + " wikipedia")
-                        gs.results_per_page = 5
-                        results = gs.get_results()
-                        for res in results:
-                            if "http://en.wikipedia.org" in res.url.encode("utf8") or "http://fa.wikipedia.org" in res.url.encode("utf8"):
-                                irc.send('PRIVMSG ' + channel + ' :' + who + ', ' + res.url.encode("utf8") + cr)
-                                break
-                    except SearchError, e:
-                        print "Search failed: %s" % e
-                        
-                else:
-                    lt = lang[1:3]
-                    lf = lang[-2:]
-                    irc.send('PRIVMSG ' + channel + ' :' + who + ', ' + Translator().translate(ebarat, lf, lt).encode("utf-8") + cr)
+                lt = lang[1:3]
+                lf = lang[-2:]
+                irc.send(pc + who + ', ' + Translator().translate(ebarat, lf, lt).encode("utf-8") + cr)
                     
             except Exception, e:
                 print e
@@ -120,7 +107,7 @@ while True:
                     try:
                         lod = data.split(":")
                         who = lod[1].split("!")[0]
-                        irc.send('PRIVMSG ' + channel + ' :' + who + ', kheyli bi adabi!!!' + cr)
+                        irc.send(pc + who + ', kheyli bi adabi!!!' + cr)
                     except Exception, e:
                         print e
                     break
