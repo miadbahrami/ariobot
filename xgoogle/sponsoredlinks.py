@@ -1,4 +1,3 @@
-#encoding: utf-8
 #!/usr/bin/python
 #
 # Peteris Krumins (peter@catonmat.net)

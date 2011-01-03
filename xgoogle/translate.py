@@ -1,5 +1,3 @@
-#encoding: utf-8
-
 #!/usr/bin/python
 #
 # Peteris Krumins (peter@catonmat.net)
@@ -52,7 +50,7 @@ class Translator(object):
             if data['responseStatus'] != 200:
                 raise TranslationError, "Failed translating: %s" % data['responseDetails']
 
-            return unicode(data['responseData']['translatedText'])
+            return data['responseData']['translatedText']
         except BrowserError, e:
             raise TranslationError, "Failed translating (getting %s failed): %s" % (e.url, e.error)
         except ValueError, e:

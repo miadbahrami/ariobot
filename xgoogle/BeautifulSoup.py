@@ -1,5 +1,3 @@
-#encoding: utf-8
-
 """Beautiful Soup
 Elixir and Tonic
 "The Screen-Scraper's Friend"
