@@ -4,10 +4,9 @@ from xgoogle.search import GoogleSearch, SearchError
 from xgoogle.translate import Translator
 
 # --------- connect
-# --------- test
 
-username = "gholam"
-channel = "#harchi"
+username = raw_input("username: ")
+channel = raw_input("channel: ")
 network = 'irc.freenode.net'
 port = 6667
 irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -41,9 +40,9 @@ while True:
 
 # ------------- khuruj
 
-    #elif data.find('!birun') != -1:
-        #irc.send('PRIVMSG ' + channel + ' :chashm :(\r\n')
-        #irc.send('QUIT\r\n')
+    elif data.find('!birun') != -1:
+        irc.send('PRIVMSG ' + channel + ' :chashm :(\r\n')
+        irc.send('QUIT\r\n')
 
 # -------------- help
 
@@ -107,8 +106,8 @@ while True:
                     lf = lang[-2:]
                     irc.send('PRIVMSG ' + channel + ' :' + who + ', ' + Translator().translate(ebarat, lf, lt).encode("utf-8") + '\r\n')
                     
-            except:
-                pass
+            except Exception, e:
+                print e
 
 # ------------- ping username
 
@@ -137,10 +136,9 @@ while True:
 
                 elif data.find('bye') != -1 or data.find('khodafez') != -1 or data.find('goodbye') != -1 or data.find('good bye') != -1 or data.find('bedrood') != -1 or data.find('bedrud') != -1 or data.find('bedrod') != -1:
                     irc.send('PRIVMSG ' + channel + ' :' + who + ', bedrud :(\r\n')
-                else:
-                    irc.send('PRIVMSG ' + channel + ' :' + who + ', har harfi o javab nemidam age kar dari !help o bezan.\r\n')
-            except:
-                pass
+                    
+            except Exception, e:
+                print e
 
     if counter >= 12:
         for s in foshes.foshes:
@@ -150,8 +148,8 @@ while True:
                         lod = data.split(":")
                         who = lod[1].split("!")[0]
                         irc.send('PRIVMSG ' + channel + ' :' + who + ', kheyli bi adabi!!!\r\n')
-                    except:
-                        pass
+                    except Exception, e:
+                        print e
                     break
 
     print data
