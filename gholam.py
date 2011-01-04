@@ -56,7 +56,7 @@ while True:
                 irc.send(pm + "+----------------Menu---------------+" + cr)
                 irc.send(pm + "| !help ~> Command List             |" + cr)
                 irc.send(pm + "| !about ~> About Me                |" + cr)
-                irc.send(pm + "| .g phrase ~> Google Search        |" + cr)
+                irc.send(pm + "| .web phrase ~> Google Search      |" + cr)
                 irc.send(pm + "| .img phrase ~> Google Images      |" + cr)
                 irc.send(pm + "| .vid phrase ~> Google Images      |" + cr)
                 irc.send(pm + "|-------------Translate-------------|" + cr)
