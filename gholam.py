@@ -71,7 +71,7 @@ while True:
 
 # ------------- khuruj
 
-        elif data.find("!birun") != -1:
+        elif data.find(":!birun") != -1:
             irc.send(pc + "chashm :(\r\n")
             irc.send('QUIT\r\n')
 
@@ -92,7 +92,7 @@ while True:
             if ebarat.endswith(cr):
                 ebarat = ebarat[:-2]
             try:
-                if data.find(":.g ") != -1:
+                if data.find(":.web ") != -1:
                     url = "http://www.google.com/search?q=" + ebarat
                     irc.send(pc + who + ', ' + url.replace(" ", "+") + cr)
                     
@@ -111,7 +111,6 @@ while True:
             except Exception, e:
                 print e
 
-# ------------- ping username
 
     if counter >= 12:
         for s in foshes.foshes:
