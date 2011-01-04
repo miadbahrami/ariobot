@@ -91,10 +91,14 @@ while True:
             if ebarat.endswith(cr):
                 ebarat = ebarat[:-2]
             try:
-                lt = lang[1:3]
-                lf = lang[-2:]
-                irc.send(pc + who + ', ' + Translator().translate(ebarat, lf, lt).encode("utf-8") + cr)
-                    
+                if data.find(":.g "):
+                    url = "http://www.google.com/search?q=" + ebarat
+                    url = url.replace(" ", "+")
+                    irc.send(pc + who + ', ' + url + cr)
+                else:
+                    lt = lang[1:3]
+                    lf = lang[-2:]
+                    irc.send(pc + who + ', ' + Translator().translate(ebarat, lf, lt).encode("utf-8") + cr)
             except Exception, e:
                 print e
 

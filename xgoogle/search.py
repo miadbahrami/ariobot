@@ -186,11 +186,11 @@ class GoogleSearch(object):
             else:
                 url = GoogleSearch.NEXT_PAGE_1
 
-        safe_url = [url % { 'query': urllib.quote_plus(self.query),
+        safe_url = [url % {'query': urllib.quote_plus(self.query),
                            'start': self._page * self._results_per_page,
                            'num': self._results_per_page,
-                           'tld' : self._tld,
-                           'lang' : self._lang }]
+                           'tld': self._tld,
+                           'lang': self._lang}]
         
         # possibly extend url with optional properties
         if self._first_indexed_in_previous:
