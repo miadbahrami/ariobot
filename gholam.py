@@ -56,9 +56,9 @@ while True:
                 irc.send(pm + "+----------------Menu---------------+" + cr)
                 irc.send(pm + "| !help ~> Command List             |" + cr)
                 irc.send(pm + "| !about ~> About Me                |" + cr)
-                irc.send(pm + "| .w phrase ~> Wikipedia Search     |" + cr)
-                irc.send(pm + "|-----------------------------------|" + cr)
-                irc.send(pm + "|           --Translate--           |" + cr)
+                irc.send(pm + "| .g phrase ~> Google Search        |" + cr)
+                irc.send(pm + "| .img phrase ~> Google Images      |" + cr)
+                irc.send(pm + "|-------------Translate-------------|" + cr)
                 irc.send(pm + "| en = english, fa = persian and ...|" + cr)
                 irc.send(pm + "|    ---------examples----------    |" + cr)
                 irc.send(pm + "| .enfa phrase ~> English to Farsi  |" + cr)
@@ -91,10 +91,14 @@ while True:
             if ebarat.endswith(cr):
                 ebarat = ebarat[:-2]
             try:
-                if data.find(":.g "):
+                if data.find(":.g ") != -1:
                     url = "http://www.google.com/search?q=" + ebarat
-                    url = url.replace(" ", "+")
-                    irc.send(pc + who + ', ' + url + cr)
+                    irc.send(pc + who + ', ' + url.replace(" ", "+") + cr)
+                    
+                elif data.find(":.img") != -1:
+                    url = "http://www.google.com/images?q=" + ebarat
+                    irc.send(pc + who + ', ' + url.replace(" ", "+") + cr)
+                    
                 else:
                     lt = lang[1:3]
                     lf = lang[-2:]
