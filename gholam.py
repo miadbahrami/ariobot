@@ -58,6 +58,7 @@ while True:
                 irc.send(pm + "| !about ~> About Me                |" + cr)
                 irc.send(pm + "| .g phrase ~> Google Search        |" + cr)
                 irc.send(pm + "| .img phrase ~> Google Images      |" + cr)
+                irc.send(pm + "| .vid phrase ~> Google Images      |" + cr)
                 irc.send(pm + "|-------------Translate-------------|" + cr)
                 irc.send(pm + "| en = english, fa = persian and ...|" + cr)
                 irc.send(pm + "|    ---------examples----------    |" + cr)
@@ -99,6 +100,10 @@ while True:
                     url = "http://www.google.com/images?q=" + ebarat
                     irc.send(pc + who + ', ' + url.replace(" ", "+") + cr)
                     
+                elif data.find(":.vid") != -1:
+                    url = "http://www.google.com/search?q=" + ebarat + "&tbs=vid:1"
+                    irc.send(pc + who + ', ' + url.replace(" ", "+") + cr)
+
                 else:
                     lt = lang[1:3]
                     lf = lang[-2:]
