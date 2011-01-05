@@ -1,6 +1,8 @@
 import socket
 import foshes
 from xgoogle.translate import Translator
+from time import localtime
+from time import strftime
 
 # --------- connect
 
@@ -78,20 +80,27 @@ while True:
 # ---------------- about
 
         elif data.find(":!about") != -1:
-            if data.find(username + "!") == -1:
-                irc.send(pc + who + ', My name is ' + username + ', I was born in 28 December 2010 and I\'m written in python.' + cr)
+            irc.send(pc + who + ', My name is ' + username + ', I was born in 28 December 2010 and I\'m written in python.' + cr)
+                
+# --------------- time
+                
+        elif data.find(":!time") != -1:
+            irc.send(pc + who + ', ' + strftime("%H:%M:%S", localtime()) + cr)
 
-# ---------- Translate
+# ---------- dot commands
 
         elif data.find(':.') != -1:
             lod = data.split(":")
             who = lod[1].split("!")[0]
             lang = lod[2].split(" ")[0]
-            
             ebarat = ' '.join(lod[2].split(" ")[1: ])
+            
             if ebarat.endswith(cr):
                 ebarat = ebarat[:-2]
+                
             try:
+                
+#<GoogleSearch>
                 if data.find(":.web ") != -1:
                     url = "http://www.google.com/search?q=" + ebarat
                     irc.send(pc + who + ', ' + url.replace(" ", "+") + cr)
@@ -103,11 +112,15 @@ while True:
                 elif data.find(":.vid") != -1:
                     url = "http://www.google.com/search?q=" + ebarat + "&tbs=vid:1"
                     irc.send(pc + who + ', ' + url.replace(" ", "+") + cr)
+#</GoogleSearch>
 
+#<Translate>
                 else:
                     lt = lang[1:3]
                     lf = lang[-2:]
                     irc.send(pc + who + ', ' + Translator().translate(ebarat, lf, lt).encode("utf-8") + cr)
+#</Translate>                    
+                    
             except Exception, e:
                 print e
 
@@ -124,6 +137,6 @@ while True:
                         print e
                     break
 
-    print data
+    print strftime("%H:%M:%S", localtime()) + "| " + data
     print str(counter) + ")=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"
     counter += 1
