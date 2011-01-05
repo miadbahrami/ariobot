@@ -143,6 +143,6 @@ while True:
                         print e
                     break
 
-    print data
+    print strftime("%H:%M:%S", localtime()) + " | " + data
     print str(counter) + ") " + strftime("%H:%M:%S", localtime()) + " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"
     counter += 1
