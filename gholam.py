@@ -90,7 +90,7 @@ while True:
 # --------------- time
                 
         elif data.find(":!time") != -1:
-            irc.send(pc + who + ', ' + strftime("%H:%M:%S | %A, %Y/%B/%d", localtime()) + cr)
+            irc.send(pc + who + ', ' + strftime("%H:%M:%S", localtime()) + cr)
         
         elif data.find(":!when") != -1:
             irc.send(pc + who + ', ' + zaman + cr)
@@ -102,7 +102,8 @@ while True:
             month = taghvim[1]
             day = taghvim[2]
             wikDay = taghvim[3]
-            irc.send(pc + who + ', ' + wikDay + " " + day + " " + month + " " + year + cr)
+            irc.send(pc + who + ', ' + strftime("%a, %Y/%b/%d", localtime()) + " | " + wikDay + " " + day + " " + month + " " + year + cr)
+            
 # ---------- dot commands
 
         elif data.find(':.') != -1:
