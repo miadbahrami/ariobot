@@ -36,8 +36,8 @@ while True:
         irc.send("PONG " + pinger + cr)
         print "PONG " + pinger + cr
         
-    if data.find(":" + username + "!~" + username) != -1 and data.find("JOIN :" + channel):
-        zaman = strftime("%H:%M:%S", localtime())
+    elif data.find(":" + username + "!~" + username) != -1 and data.find("JOIN :" + channel):
+        zaman = strftime("%H:%M:%S | %A, %Y/%B/%d", localtime())
 
 # ----------- welcome
 
@@ -88,8 +88,8 @@ while True:
 # --------------- time
                 
         elif data.find(":!time") != -1:
-            irc.send(pc + who + ', ' + strftime("%H:%M:%S", localtime()) + cr)
-            
+            irc.send(pc + who + ', ' + strftime("%H:%M:%S | %A, %Y/%B/%d", localtime()) + cr)
+        
         elif data.find(":!when") != -1:
             irc.send(pc + who + ', ' + zaman + cr)
 
