@@ -96,12 +96,12 @@ while True:
             irc.send(pc + who + ', ' + zaman + cr)
             
         elif data.find(":!date") != -1:
-            taghvim = Calverter().gregorian_to_iranian(2010, 01, 05)
+            taghvim = Calverter().gregorian_to_iranian(2011, 01, 05)
             year = taghvim[0]
             month = taghvim[1]
             day = taghvim[2]
             wikDay = taghvim[3]
-            irc.send(pc + who + ', ' + "امروز" + wikDay + ", " + day + month + year + cr)
+            irc.send(pc + who + ', ' + wikDay + " " + day + " " + month + " " + year + cr)
 # ---------- dot commands
 
         elif data.find(':.') != -1:
