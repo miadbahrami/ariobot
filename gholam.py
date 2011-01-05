@@ -22,23 +22,28 @@ irc.connect((network, port))
 print irc.recv(4096)
 
 irc.send("NICK " + username + cr)
+print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr("NICK " + username + cr) + ")"
 irc.send("USER " + username + " " + username + " " + username + " :Python IRC" + cr)
+print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr("USER " + username + " " + username + " " + username + " :Python IRC" + cr) + ")"
 irc.send("JOIN " + channel + cr)
+print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr("JOIN " + channel + cr) + ")"
 
 # ------------ listen
 
 counter = 1
 
 while True:
+    print "\nloop: " + strftime("%H:%M:%S", localtime()) + " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=(" +str(counter) + ")\n"
     data = irc.recv(4096)
+    print "recieve: " + strftime("%H:%M:%S", localtime()) + " (" + repr(data) + ")\n"
     
     if data.find("PING") != -1:
 
         pinger = data.split()[1]
         irc.send("PONG " + pinger + cr)
-        print "PONG " + pinger + cr
+        print "send: " + strftime("%H:%M:%S", localtime()) + "(" + repr("PONG " + pinger + cr) + ")"
         
-    elif data.find(":" + username + "!~" + username) != -1 and data.find("JOIN :" + channel):
+    if data.find(":" + username + "!~" + username) != -1 and data.find("JOIN :" + channel):
         zaman = strftime("%H:%M:%S | %A, %Y/%B/%d", localtime())
 
 # ----------- welcome
@@ -80,20 +85,25 @@ while True:
 
         elif data.find(":!birun") != -1:
             irc.send(pc + "chashm :(\r\n")
+            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + "chashm :(\r\n")
             irc.send('QUIT\r\n')
+            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr('QUIT\r\n')
 
 # ---------------- about
 
         elif data.find(":!about") != -1:
             irc.send(pc + who + ', My name is ' + username + ', I was born in 28 December 2010 and I\'m written in python.' + cr)
+            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', My name is ' + username + ', I was born in 28 December 2010 and I\'m written in python.' + cr) + ")" 
                 
 # --------------- time
                 
         elif data.find(":!time") != -1:
             irc.send(pc + who + ', ' + strftime("%H:%M:%S", localtime()) + cr)
+            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', ' + strftime("%H:%M:%S", localtime()) + cr) + ")"
         
         elif data.find(":!when") != -1:
             irc.send(pc + who + ', ' + zaman + cr)
+            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', ' + zaman + cr) + ")"
             
         elif data.find(":!date") != -1:
             tagh = strftime("%Y/%m/%d", localtime()).split("/")
@@ -103,6 +113,7 @@ while True:
             day = taghvim[2]
             wikDay = taghvim[3]
             irc.send(pc + who + ', ' + strftime("%a, %Y/%b/%d", localtime()) + " | " + wikDay + " " + day + " " + month + " " + year + cr)
+            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', ' + strftime("%a, %Y/%b/%d", localtime()) + " | " + wikDay + " " + day + " " + month + " " + year + cr) + ")" 
             
 # ---------- dot commands
 
@@ -121,14 +132,17 @@ while True:
                 if data.find(":.web ") != -1:
                     url = "http://www.google.com/search?q=" + ebarat
                     irc.send(pc + who + ', ' + url.replace(" ", "+") + cr)
+                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', ' + url.replace(" ", "+") + cr) + ")"
                     
                 elif data.find(":.img") != -1:
                     url = "http://www.google.com/images?q=" + ebarat
                     irc.send(pc + who + ', ' + url.replace(" ", "+") + cr)
+                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', ' + url.replace(" ", "+") + cr) + ")"
                     
                 elif data.find(":.vid") != -1:
                     url = "http://www.google.com/search?q=" + ebarat + "&tbs=vid:1"
                     irc.send(pc + who + ', ' + url.replace(" ", "+") + cr)
+                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', ' + url.replace(" ", "+") + cr) + ")"
 #</GoogleSearch>
 
 #<Translate>
@@ -136,6 +150,7 @@ while True:
                     lt = lang[1:3]
                     lf = lang[-2:]
                     irc.send(pc + who + ', ' + Translator().translate(ebarat, lf, lt).encode("utf-8") + cr)
+                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', ' + Translator().translate(ebarat, lf, lt).encode("utf-8") + cr) + ")"
 #</Translate>                    
                     
             except Exception, e:
@@ -150,10 +165,8 @@ while True:
                         lod = data.split(":")
                         who = lod[1].split("!")[0]
                         irc.send(pc + who + ', kheyli bi adabi!!!' + cr)
+                        print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', kheyli bi adabi!!!' + cr) + ")"
                     except Exception, e:
                         print e
                     break
-
-    print strftime("%H:%M:%S", localtime()) + " (" + repr(data) + ")"
-    print str(counter) + ") " + strftime("%H:%M:%S", localtime()) + " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"
     counter += 1
