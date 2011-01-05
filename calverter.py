@@ -1,3 +1,4 @@
+#coding: utf-8
 #!/usr/bin/env python
 ##   calverter.py
 ##
@@ -32,11 +33,12 @@ GREGORIAN_WEEKDAYS = ("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "F
 
 ISLAMIC_EPOCH = 1948439.5
 ISLAMIC_WEEKDAYS = ("al-ahad", "al-'ithnayn", "ath-thalatha'", "al-arbia`aa'", "al-khamis", "al-jumu`a", "as-sabt")
-          
+
 JALALI_EPOCH = 1948320.5
 
 # taghire code asli
 JALALI_WEEKDAYS = ("Yekshanbeh", "Doshanbeh", "Seshhanbeh", "Chaharshanbeh", "Panjshanbeh", "Jomeh", "Shanbeh")
+JALALI_WEEKDAYS = ("یکشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنجشنبه", "جمعه", "شنبه")
 
 import math
 
