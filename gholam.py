@@ -3,6 +3,7 @@ import foshes
 from xgoogle.translate import Translator
 from time import localtime
 from time import strftime
+from calverter import Calverter
 
 # --------- connect
 
@@ -92,7 +93,9 @@ while True:
         
         elif data.find(":!when") != -1:
             irc.send(pc + who + ', ' + zaman + cr)
-
+            
+        elif data.find(":!date") != -1:
+            irc.send(pc + who + ', ' + Calverter().gregorian_to_iranian(2010, 01, 05) + cr)
 # ---------- dot commands
 
         elif data.find(':.') != -1:
@@ -143,6 +146,6 @@ while True:
                         print e
                     break
 
-    print strftime("%H:%M:%S", localtime()) + " | " + data
+    print strftime("%H:%M:%S", localtime()) + " (" + repr(data) + ")"
     print str(counter) + ") " + strftime("%H:%M:%S", localtime()) + " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"
     counter += 1
