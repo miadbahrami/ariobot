@@ -96,7 +96,8 @@ while True:
             irc.send(pc + who + ', ' + zaman + cr)
             
         elif data.find(":!date") != -1:
-            taghvim = Calverter().gregorian_to_iranian(2011, 01, 05)
+            tagh = strftime("%Y/%m/%d", localtime()).split("/")
+            taghvim = Calverter().gregorian_to_iranian(int(tagh[0]), int(tagh[1]), int(tagh[2]))
             year = taghvim[0]
             month = taghvim[1]
             day = taghvim[2]
