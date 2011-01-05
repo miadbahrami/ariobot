@@ -18,13 +18,15 @@ pc = 'PRIVMSG ' + channel + ' :'
 zaman = ""
 
 irc.connect((network, port))
-
-print irc.recv(4096)
+data = irc.recv(4096)
+print "recieve: " + strftime("%H:%M:%S", localtime()) + " (" + repr(data) + ")\n"
 
 irc.send("NICK " + username + cr)
 print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr("NICK " + username + cr) + ")"
+
 irc.send("USER " + username + " " + username + " " + username + " :Python IRC" + cr)
 print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr("USER " + username + " " + username + " " + username + " :Python IRC" + cr) + ")"
+
 irc.send("JOIN " + channel + cr)
 print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr("JOIN " + channel + cr) + ")"
 
@@ -34,6 +36,7 @@ counter = 1
 
 while True:
     print "\nloop: " + strftime("%H:%M:%S", localtime()) + " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=(" +str(counter) + ")\n"
+    
     data = irc.recv(4096)
     print "recieve: " + strftime("%H:%M:%S", localtime()) + " (" + repr(data) + ")\n"
     
@@ -65,21 +68,8 @@ while True:
 
         if data.find(':!help') != -1:
             if data.find(username + '!') == -1:
-                irc.send(pm + "+----------------Menu---------------+" + cr)
-                irc.send(pm + "| !help ~> Command List             |" + cr)
-                irc.send(pm + "| !about ~> About Me                |" + cr)
-                irc.send(pm + "| .web phrase ~> Google Search      |" + cr)
-                irc.send(pm + "| .img phrase ~> Google Images      |" + cr)
-                irc.send(pm + "| .vid phrase ~> Google Images      |" + cr)
-                irc.send(pm + "|-------------Translate-------------|" + cr)
-                irc.send(pm + "| en = english, fa = persian and ...|" + cr)
-                irc.send(pm + "|    ---------examples----------    |" + cr)
-                irc.send(pm + "| .enfa phrase ~> English to Farsi  |" + cr)
-                irc.send(pm + "| .faen phrase ~> Farsi to English  |" + cr)
-                irc.send(pm + "| .defa phrase ~> German to Farsi   |" + cr)
-                irc.send(pm + "| .fade phrase ~> Farsi to German   |" + cr)
-                irc.send(pm + "|               ...                 |" + cr)
-                irc.send(pm + "+-----------------------------------+" + cr)
+                irc.send(pc + who + ", " + "https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands" + cr)
+                print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr("https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands") + ")" 
 
 # ------------- khuruj
 
