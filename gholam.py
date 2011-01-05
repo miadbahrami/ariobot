@@ -13,6 +13,7 @@ port = 6667
 irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 cr = "\r\n"
 pc = 'PRIVMSG ' + channel + ' :'
+zaman = ""
 
 irc.connect((network, port))
 
@@ -27,15 +28,17 @@ irc.send("JOIN " + channel + cr)
 counter = 1
 
 while True:
-
     data = irc.recv(4096)
     
-    if data.find('PING') != -1:
+    if data.find("PING") != -1:
 
         pinger = data.split()[1]
-        irc.send('PONG ' + pinger + cr)
-        print 'PONG ' + pinger + cr
+        irc.send("PONG " + pinger + cr)
+        print "PONG " + pinger + cr
         
+    if data.find(":" + username + "!~" + username) != -1 and data.find("JOIN :" + channel):
+        zaman = strftime("%H:%M:%S", localtime())
+
 # ----------- welcome
 
     #elif data.find('JOIN') != -1:
@@ -86,6 +89,9 @@ while True:
                 
         elif data.find(":!time") != -1:
             irc.send(pc + who + ', ' + strftime("%H:%M:%S", localtime()) + cr)
+            
+        elif data.find(":!when") != -1:
+            irc.send(pc + who + ', ' + zaman + cr)
 
 # ---------- dot commands
 
@@ -137,6 +143,6 @@ while True:
                         print e
                     break
 
-    print strftime("%H:%M:%S", localtime()) + "| " + data
-    print str(counter) + ")=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"
+    print data
+    print str(counter) + ") " + strftime("%H:%M:%S", localtime()) + " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n"
     counter += 1
