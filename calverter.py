@@ -36,8 +36,7 @@ ISLAMIC_WEEKDAYS = ("al-ahad", "al-'ithnayn", "ath-thalatha'", "al-arbia`aa'", "
 
 JALALI_EPOCH = 1948320.5
 
-# taghire code asli
-JALALI_WEEKDAYS = ("Yekshanbeh", "Doshanbeh", "Seshhanbeh", "Chaharshanbeh", "Panjshanbeh", "Jomeh", "Shanbeh")
+# change main code
 JALALI_WEEKDAYS = ("یکشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنجشنبه", "جمعه", "شنبه")
 
 import math
@@ -250,11 +249,19 @@ class Calverter:
              
         day = int(jd - self.jalali_to_jd(year, month, 1)) + 1
         return year, month, day
-    
+
 # add to main source
     def gregorian_to_iranian(self, year, month, day):
         cal = Calverter()
         jd = cal.gregorian_to_jd(year, month, day)
         wday = cal.jwday(jd)
-        return str(cal.jd_to_jalali(jd)) + JALALI_WEEKDAYS[wday]
+        
+        tagh = str(cal.jd_to_jalali(jd))[1:-1] + ", " + JALALI_WEEKDAYS[wday]
+        l = tagh.split(", ")
+
+        dicMonth = ["فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"]
+
+        l[1] = dicMonth[int(l[1])]
+        return l
+
      
