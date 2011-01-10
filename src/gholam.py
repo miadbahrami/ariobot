@@ -134,7 +134,7 @@ while True:
                 ebarat = ebarat[:-2]
                 
             try:
-                
+
 #<GoogleSearch>
                 if data.find(":.web ") != -1:
                     url = "http://www.google.com/search?q=" + ebarat
