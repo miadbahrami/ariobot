@@ -28,6 +28,7 @@ irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 cr = "\r\n"
 pc = 'PRIVMSG ' + channel + ' :'
 zaman = ""
+whoBot = ""
 
 irc.connect((network, port))
 data = irc.recv(4096)
@@ -70,6 +71,12 @@ while True:
         #if data.find(username + '!') == -1:
             #irc.send('PRIVMSG ' + channel + ' :' + who + ', be S.H.I.T (Some Hackers In Town) khosh umadi!\r\n')
             
+    if data.find(":la_fen!~la_fen@") != -1:
+        if str(data).index("PRIVMSG harchi :"):
+            
+            irc.send()
+        
+        
     elif data.find(pc) != -1:
         lod = data.split("!")
         who = lod[0]
@@ -146,6 +153,15 @@ while True:
                     irc.send(pc + who + ', ' + url.replace(" ", "+") + cr)
                     print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', ' + url.replace(" ", "+") + cr) + ")"
 #</GoogleSearch>
+
+#<ContactWithRobot>
+
+                elif data.find(":.w") != -1:
+                    irc.send("PRIVMSG la_fen :.w " + ebarat + cr)
+                    print "PRIVMSG la_fen :.w " + ebarat + cr
+                    who = whoBot
+
+#</ContactWithRobot>
 
 #<Translate>
                 else:
