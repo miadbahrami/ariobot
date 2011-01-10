@@ -70,12 +70,10 @@ while True:
         #who = who[1:]
         #if data.find(username + '!') == -1:
             #irc.send('PRIVMSG ' + channel + ' :' + who + ', be S.H.I.T (Some Hackers In Town) khosh umadi!\r\n')
-            
+
     if data.find(":la_fen!~la_fen@") != -1:
-        if str(data).index("PRIVMSG harchi :"):
-            
-            irc.send()
-        
+        data = data[str(data).index("PRIVMSG harchi :") + 16:]
+        irc.send(pc + data + cr)
         
     elif data.find(pc) != -1:
         lod = data.split("!")
