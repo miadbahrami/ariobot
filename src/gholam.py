@@ -72,9 +72,10 @@ while True:
             #irc.send('PRIVMSG ' + channel + ' :' + who + ', be S.H.I.T (Some Hackers In Town) khosh umadi!\r\n')
 
     if data.find(":la_fen!~la_fen@") != -1:
-        data = data[str(data).index("PRIVMSG harchi :") + 16:]
-        irc.send(pc + data + cr)
-        
+        print ":D:D:D" + repr(data)
+        data = data[data.index("PRIVMSG " + channel[1:] + " :") + 16:]
+        irc.send(pc + whoBot + ", " + data + cr)
+
     elif data.find(pc) != -1:
         lod = data.split("!")
         who = lod[0]
@@ -157,7 +158,7 @@ while True:
                 elif data.find(":.w") != -1:
                     irc.send("PRIVMSG la_fen :.w " + ebarat + cr)
                     print "PRIVMSG la_fen :.w " + ebarat + cr
-                    who = whoBot
+                    whoBot = who
 
 #</ContactWithRobot>
 
