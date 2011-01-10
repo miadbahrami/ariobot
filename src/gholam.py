@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 ##   Copyright (C) 2010-2011 Amin Oruji (aminpy@gmail.com)
 ##
 ##   This program is free software; you can redistribute it and/or modify
@@ -72,8 +72,7 @@ while True:
             #irc.send('PRIVMSG ' + channel + ' :' + who + ', be S.H.I.T (Some Hackers In Town) khosh umadi!\r\n')
 
     if data.find(":la_fen!~la_fen@") != -1:
-        print ":D:D:D" + repr(data)
-        data = data[data.index("PRIVMSG " + channel[1:] + " :") + 16:]
+        data = data[data.index("PRIVMSG " + username + " :") + 16:]
         irc.send(pc + whoBot + ", " + data + cr)
 
     elif data.find(pc) != -1:
