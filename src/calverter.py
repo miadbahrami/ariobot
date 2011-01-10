@@ -21,13 +21,6 @@
 ##   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ##   GNU General Public License for more details.
 
-
-__author__ = "Mehdi Bayazee"
-__copyright__ = "Copyright (C) 2008-2010 Mehdi Bayazee"
-
-__version__ = "1.6.1"
-
-
 GREGORIAN_EPOCH = 1721425.5
 GREGORIAN_WEEKDAYS = ("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
 
