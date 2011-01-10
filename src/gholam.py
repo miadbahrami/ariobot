@@ -159,6 +159,11 @@ while True:
                     print "PRIVMSG la_fen :.w " + ebarat + cr
                     whoBot = who
 
+                elif data.find(":.dict") != -1:
+                    irc.send("PRIVMSG la_fen :.dict " + ebarat + cr)
+                    print "PRIVMSG la_fen :.dict " + ebarat + cr
+                    whoBot = who
+                    
 #</ContactWithRobot>
 
 #<Translate>
