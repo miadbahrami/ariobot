@@ -206,7 +206,7 @@ class SponsoredLinks(object):
 
         desc_div = result.find('div', {'class': 'line23'})
         if not desc_div:
-            self._maybe_raise(ParseError, "Description tag not found in sponsored link", result)
+            self._maybe_raise("Description tag not found in sponsored link", result)
             return None
 
         desc_strs = desc_div.findAll(text=True)[0:-1]

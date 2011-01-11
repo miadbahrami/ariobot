@@ -436,7 +436,7 @@ class Tag(PageElement):
 
     """Represents a found HTML tag with its attributes and contents."""
 
-    def _invert(h):
+    def _invert(self, h):
         "Cheap function to invert a hash."
         i = {}
         for k,v in h.items():

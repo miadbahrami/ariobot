@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 ##   Copyright (C) 2010-2011 Amin Oruji (aminpy@gmail.com)
 ##
 ##   This program is free software; you can redistribute it and/or modify
@@ -20,155 +20,173 @@ from calverter import Calverter
 
 # --------- connect
 
-username = raw_input("username: ")
-channel = raw_input("channel: ")
-network = "irc.freenode.net"
-port = 6667
-irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-cr = "\r\n"
-pc = 'PRIVMSG ' + channel + ' :'
-zaman = ""
-
-irc.connect((network, port))
-data = irc.recv(4096)
-print "recieve: " + strftime("%H:%M:%S", localtime()) + " (" + repr(data) + ")\n"
-
-irc.send("NICK " + username + cr)
-print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr("NICK " + username + cr) + ")"
-
-irc.send("USER " + username + " " + username + " " + username + " :Python IRC" + cr)
-print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr("USER " + username + " " + username + " " + username + " :Python IRC" + cr) + ")"
-
-irc.send("JOIN " + channel + cr)
-print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr("JOIN " + channel + cr) + ")"
-
-# ------------ listen
-
-counter = 1
-
-while True:
-    print "\nloop: " + strftime("%H:%M:%S", localtime()) + " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=(" +str(counter) + ")\n"
+class Gholam(object):
+    zaman = ""
+    whoBot = ""
+    def __init__(self, username, channel):
+        self.username = username
+        self.channel = channel
+        self.pc = 'PRIVMSG ' + self.channel + ' :'
+        self.network = "irc.freenode.net"
+        self.port = 6667
+        self.irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+        self.irc.connect((self.network, self.port))
+        self.data = self.irc.recv(4096)
+        self.irc.send("NICK " + self.username + "\r\n")
+        self.irc.send("USER " + self.username + " " + self.username + " " + self.username + " :Python IRC" + "\r\n")
+        self.irc.send("JOIN " + self.channel + "\r\n")
     
-    data = irc.recv(4096)
-    print "recieve: " + strftime("%H:%M:%S", localtime()) + " (" + repr(data) + ")\n"
+    # ------------ listen
     
-    if data.find("PING") != -1:
-
-        pinger = data.split()[1]
-        irc.send("PONG " + pinger + cr)
-        print "send: " + strftime("%H:%M:%S", localtime()) + "(" + repr("PONG " + pinger + cr) + ")"
+    def listen(self):
+        counter = 1
         
-    if data.find(":" + username + "!~" + username) != -1 and data.find("JOIN :" + channel):
-        zaman = strftime("%H:%M:%S | %A, %Y/%B/%d", localtime())
-
-# ----------- welcome
-
-    #elif data.find('JOIN') != -1:
-        #lod = data.split("!")
-        #who = lod[0]
-        #who = who[1:]
-        #if data.find(username + '!') == -1:
-            #irc.send('PRIVMSG ' + channel + ' :' + who + ', be S.H.I.T (Some Hackers In Town) khosh umadi!\r\n')
+        while True:
+            print "\nloop: " + strftime("%H:%M:%S", localtime()) + " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=(" +str(counter) + ")\n"
             
-    elif data.find(pc) != -1:
-        lod = data.split("!")
-        who = lod[0]
-        who = who[1:]
-        pm = 'PRIVMSG ' + who + ' :'
-
-# -------------- help
-
-        if data.find(':!help') != -1:
-            if data.find(username + '!') == -1:
-                irc.send(pc + who + ", " + "https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands" + cr)
-                print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr("https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands") + ")" 
-
-# ------------- khuruj
-
-        elif data.find(":!birun") != -1:
-            irc.send(pc + "chashm :(\r\n")
-            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + "chashm :(\r\n")
-            irc.send('QUIT\r\n')
-            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr('QUIT\r\n')
-
-# ---------------- about
-
-        elif data.find(":!about") != -1:
-            irc.send(pc + who + ', My name is ' + username + ', I was born in 28 December 2010 and I\'m written in python.' + cr)
-            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', My name is ' + username + ', I was born in 28 December 2010 and I\'m written in python.' + cr) + ")" 
-                
-# --------------- time
-                
-        elif data.find(":!time") != -1:
-            irc.send(pc + who + ', ' + strftime("%H:%M:%S", localtime()) + cr)
-            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', ' + strftime("%H:%M:%S", localtime()) + cr) + ")"
+            data = self.irc.recv(4096)
+            print "recieve: " + strftime("%H:%M:%S", localtime()) + " (" + repr(data) + ")\n"
+            
+            if data.find("PING") != -1:
         
-        elif data.find(":!when") != -1:
-            irc.send(pc + who + ', ' + zaman + cr)
-            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', ' + zaman + cr) + ")"
-            
-        elif data.find(":!date") != -1:
-            tagh = strftime("%Y/%m/%d", localtime()).split("/")
-            taghvim = Calverter().gregorian_to_iranian(int(tagh[0]), int(tagh[1]), int(tagh[2]))
-            year = taghvim[0]
-            month = taghvim[1]
-            day = taghvim[2]
-            wikDay = taghvim[3]
-            irc.send(pc + who + ', ' + strftime("%a, %Y/%b/%d", localtime()) + " | " + wikDay + " " + day + " " + month + " " + year + cr)
-            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', ' + strftime("%a, %Y/%b/%d", localtime()) + " | " + wikDay + " " + day + " " + month + " " + year + cr) + ")" 
-            
-# ---------- dot commands
-
-        elif data.find(':.') != -1:
-            lod = data.split(":")
-            who = lod[1].split("!")[0]
-            lang = lod[2].split(" ")[0]
-            ebarat = ' '.join(lod[2].split(" ")[1: ])
-            
-            if ebarat.endswith(cr):
-                ebarat = ebarat[:-2]
+                pinger = data.split()[1]
+                self.irc.send("PONG " + pinger + "\r\n")
+                print "send: " + strftime("%H:%M:%S", localtime()) + "(" + repr("PONG " + pinger + "\r\n") + ")"
                 
-            try:
+            if data.find(":" + username + "!~" + username) != -1 and data.find("JOIN :" + channel):
+                zaman = strftime("%H:%M:%S | %A, %Y/%B/%d", localtime())
+        
+        # ----------- welcome
+        
+            #elif data.find('JOIN') != -1:
+                #lod = data.split("!")
+                #who = lod[0]
+                #who = who[1:]
+                #if data.find(username + '!') == -1:
+                    #irc.send('PRIVMSG ' + channel + ' :' + who + ', be S.H.I.T (Some Hackers In Town) khosh umadi!\r\n')
+        
+            if data.find(":la_fen!~la_fen@") != -1:
+                data = data[data.index("PRIVMSG " + username + " :") + 16:]
+                self.irc.send(self.pc + self.whoBot + ", " + data + "\r\n")
+        
+            elif data.find(self.pc) != -1:
+                lod = data.split("!")
+                who = lod[0]
+                who = who[1:]
+                pm = 'PRIVMSG ' + who + ' :'
+        
+        # -------------- help
+        
+                if data.find(':!help') != -1:
+                    if data.find(username + '!') == -1:
+                        self.irc.send(self.pc + who + ", " + "https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands" + "\r\n")
+                        print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr("https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands") + ")" 
+        
+        # ------------- khuruj
+        
+                elif data.find(":!birun") != -1:
+                    irc.send(self.pc + "chashm :(\r\n")
+                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + "chashm :(\r\n")
+                    self.irc.send('QUIT\r\n')
+                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr('QUIT\r\n')
+        
+        # ---------------- about
+        
+                elif data.find(":!about") != -1:
+                    self.irc.send(self.pc + who + ', My name is ' + username + ', I was born in 28 December 2010 and I\'m written in python.' + "\r\n")
+                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', My name is ' + username + ', I was born in 28 December 2010 and I\'m written in python.' + "\r\n") + ")" 
+                        
+        # --------------- time
+                        
+                elif data.find(":!time") != -1:
+                    self.irc.send(self.pc + who + ', ' + strftime("%H:%M:%S", localtime()) + "\r\n")
+                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', ' + strftime("%H:%M:%S", localtime()) + "\r\n") + ")"
                 
-#<GoogleSearch>
-                if data.find(":.web ") != -1:
-                    url = "http://www.google.com/search?q=" + ebarat
-                    irc.send(pc + who + ', ' + url.replace(" ", "+") + cr)
-                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', ' + url.replace(" ", "+") + cr) + ")"
+                elif data.find(":!when") != -1:
+                    self.irc.send(self.pc + who + ', ' + zaman + "\r\n")
+                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', ' + zaman + "\r\n") + ")"
                     
-                elif data.find(":.img") != -1:
-                    url = "http://www.google.com/images?q=" + ebarat
-                    irc.send(pc + who + ', ' + url.replace(" ", "+") + cr)
-                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', ' + url.replace(" ", "+") + cr) + ")"
+                elif data.find(":!date") != -1:
+                    tagh = strftime("%Y/%m/%d", localtime()).split("/")
+                    taghvim = Calverter().gregorian_to_iranian(int(tagh[0]), int(tagh[1]), int(tagh[2]))
+                    year = taghvim[0]
+                    month = taghvim[1]
+                    day = taghvim[2]
+                    wikDay = taghvim[3]
+                    self.irc.send(self.pc + who + ', ' + strftime("%a, %Y/%b/%d", localtime()) + " | " + wikDay + " " + day + " " + month + " " + year + "\r\n")
+                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', ' + strftime("%a, %Y/%b/%d", localtime()) + " | " + wikDay + " " + day + " " + month + " " + year + "\r\n") + ")" 
                     
-                elif data.find(":.vid") != -1:
-                    url = "http://www.google.com/search?q=" + ebarat + "&tbs=vid:1"
-                    irc.send(pc + who + ', ' + url.replace(" ", "+") + cr)
-                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', ' + url.replace(" ", "+") + cr) + ")"
-#</GoogleSearch>
-
-#<Translate>
-                else:
-                    lt = lang[1:3]
-                    lf = lang[-2:]
-                    irc.send(pc + who + ', ' + Translator().translate(ebarat, lf, lt).encode("utf-8") + cr)
-                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', ' + Translator().translate(ebarat, lf, lt).encode("utf-8") + cr) + ")"
-#</Translate>                    
+        # ---------- dot commands
+        
+                elif data.find(':.') != -1:
+                    lod = data.split(":")
+                    who = lod[1].split("!")[0]
+                    lang = lod[2].split(" ")[0]
+                    ebarat = ' '.join(lod[2].split(" ")[1: ])
                     
-            except Exception, e:
-                print e
-
-
-    if counter >= 12:
-        for s in foshes.foshes:
-            if data.find(s):
-                if foshes.isFosh(s, data):
+                    if ebarat.endswith("\r\n"):
+                        ebarat = ebarat[:-2]
+                        
                     try:
-                        lod = data.split(":")
-                        who = lod[1].split("!")[0]
-                        irc.send(pc + who + ', kheyli bi adabi!!!' + cr)
-                        print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(pc + who + ', kheyli bi adabi!!!' + cr) + ")"
+        
+        #<GoogleSearch>
+                        if data.find(":.web ") != -1:
+                            url = "http://www.google.com/search?q=" + ebarat
+                            self.irc.send(self.pc + who + ', ' + url.replace(" ", "+") + "\r\n")
+                            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', ' + url.replace(" ", "+") + "\r\n") + ")"
+                            
+                        elif data.find(":.img") != -1:
+                            url = "http://www.google.com/images?q=" + ebarat
+                            self.irc.send(self.pc + who + ', ' + url.replace(" ", "+") + "\r\n")
+                            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', ' + url.replace(" ", "+") + "\r\n") + ")"
+                            
+                        elif data.find(":.vid") != -1:
+                            url = "http://www.google.com/search?q=" + ebarat + "&tbs=vid:1"
+                            self.irc.send(self.pc + who + ', ' + url.replace(" ", "+") + "\r\n")
+                            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', ' + url.replace(" ", "+") + "\r\n") + ")"
+        #</GoogleSearch>
+        
+        #<ContactWithRobot>
+        
+                        elif data.find(":.w") != -1:
+                            self.irc.send("PRIVMSG la_fen :.w " + ebarat + "\r\n")
+                            print "PRIVMSG la_fen :.w " + ebarat + "\r\n"
+                            self.whoBot = who
+        
+                        elif data.find(":.dict") != -1:
+                            self.irc.send("PRIVMSG la_fen :.dict " + ebarat + "\r\n")
+                            print "PRIVMSG la_fen :.dict " + ebarat + "\r\n"
+                            self.whoBot = who
+                            
+        #</ContactWithRobot>
+        
+        #<Translate>
+                        else:
+                            lt = lang[1:3]
+                            lf = lang[-2:]
+                            self.irc.send(self.pc + who + ', ' + Translator().translate(ebarat, lf, lt).encode("utf-8") + "\r\n")
+                            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', ' + Translator().translate(ebarat, lf, lt).encode("utf-8") + "\r\n") + ")"
+        #</Translate>                    
+                            
                     except Exception, e:
                         print e
-                    break
-    counter += 1
+        
+        
+            if counter >= 12:
+                for s in foshes.foshes:
+                    if data.find(s):
+                        if foshes.isFosh(s, data):
+                            try:
+                                lod = data.split(":")
+                                who = lod[1].split("!")[0]
+                                self.irc.send(self.pc + who + ', kheyli bi adabi!!!' + "\r\n")
+                                print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', kheyli bi adabi!!!' + "\r\n") + ")"
+                            except Exception, e:
+                                print e
+                            break
+            counter += 1
+
+username = raw_input("username: ")
+channel = raw_input("channel: ")
+
+Gholam(username, channel).listen()
