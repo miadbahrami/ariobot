@@ -42,16 +42,13 @@ class Gholam(object):
         counter = 1
         
         while True:
-            print "\nloop: " + strftime("%H:%M:%S", localtime()) + " =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=(" +str(counter) + ")\n"
             
             data = self.irc.recv(4096)
-            print "recieve: " + strftime("%H:%M:%S", localtime()) + " (" + repr(data) + ")\n"
             
             if data.find("PING") != -1:
         
                 pinger = data.split()[1]
                 self.irc.send("PONG " + pinger + "\r\n")
-                print "send: " + strftime("%H:%M:%S", localtime()) + "(" + repr("PONG " + pinger + "\r\n") + ")"
                 
             if data.find(":" + self.username + "!~" + self.username) != -1 and data.find("JOIN :" + self.channel):
                 zaman = strftime("%H:%M:%S | %A, %Y/%B/%d", localtime())
@@ -79,31 +76,25 @@ class Gholam(object):
                 if data.find(':!help') != -1:
                     if data.find(self.username + '!') == -1:
                         self.irc.send(self.pc + who + ", " + "https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands" + "\r\n")
-                        print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr("https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands") + ")" 
         
         # ------------- khuruj
         
                 elif data.find(":!birun") != -1:
                     self.irc.send(self.pc + "chashm :(\r\n")
-                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + "chashm :(\r\n")
                     self.irc.send('QUIT\r\n')
-                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr('QUIT\r\n')
         
         # ---------------- about
         
                 elif data.find(":!about") != -1:
                     self.irc.send(self.pc + who + ', My name is ' + self.username + ', I was born in 28 December 2010 and I\'m written in python.' + "\r\n")
-                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', My name is ' + self.username + ', I was born in 28 December 2010 and I\'m written in python.' + "\r\n") + ")" 
                         
         # --------------- time
                         
                 elif data.find(":!time") != -1:
                     self.irc.send(self.pc + who + ', ' + strftime("%H:%M:%S", localtime()) + "\r\n")
-                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', ' + strftime("%H:%M:%S", localtime()) + "\r\n") + ")"
                 
                 elif data.find(":!when") != -1:
                     self.irc.send(self.pc + who + ', ' + zaman + "\r\n")
-                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', ' + zaman + "\r\n") + ")"
                     
                 elif data.find(":!date") != -1:
                     tagh = strftime("%Y/%m/%d", localtime()).split("/")
@@ -113,7 +104,6 @@ class Gholam(object):
                     day = taghvim[2]
                     wikDay = taghvim[3]
                     self.irc.send(self.pc + who + ', ' + strftime("%a, %Y/%b/%d", localtime()) + " | " + wikDay + " " + day + " " + month + " " + year + "\r\n")
-                    print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', ' + strftime("%a, %Y/%b/%d", localtime()) + " | " + wikDay + " " + day + " " + month + " " + year + "\r\n") + ")" 
                     
         # ---------- dot commands
         
@@ -132,29 +122,24 @@ class Gholam(object):
                         if data.find(":.web ") != -1:
                             url = "http://www.google.com/search?q=" + ebarat
                             self.irc.send(self.pc + who + ', ' + url.replace(" ", "+") + "\r\n")
-                            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', ' + url.replace(" ", "+") + "\r\n") + ")"
                             
                         elif data.find(":.img") != -1:
                             url = "http://www.google.com/images?q=" + ebarat
                             self.irc.send(self.pc + who + ', ' + url.replace(" ", "+") + "\r\n")
-                            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', ' + url.replace(" ", "+") + "\r\n") + ")"
                             
                         elif data.find(":.vid") != -1:
                             url = "http://www.google.com/search?q=" + ebarat + "&tbs=vid:1"
                             self.irc.send(self.pc + who + ', ' + url.replace(" ", "+") + "\r\n")
-                            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', ' + url.replace(" ", "+") + "\r\n") + ")"
         #</GoogleSearch>
         
         #<ContactWithRobot>
         
                         elif data.find(":.w") != -1:
                             self.irc.send("PRIVMSG la_fen :.w " + ebarat + "\r\n")
-                            print "PRIVMSG la_fen :.w " + ebarat + "\r\n"
                             self.whoBot = who
         
                         elif data.find(":.dict") != -1:
                             self.irc.send("PRIVMSG la_fen :.dict " + ebarat + "\r\n")
-                            print "PRIVMSG la_fen :.dict " + ebarat + "\r\n"
                             self.whoBot = who
                             
         #</ContactWithRobot>
@@ -164,7 +149,6 @@ class Gholam(object):
                             lt = lang[1:3]
                             lf = lang[-2:]
                             self.irc.send(self.pc + who + ', ' + Translator().translate(ebarat, lf, lt).encode("utf-8") + "\r\n")
-                            print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', ' + Translator().translate(ebarat, lf, lt).encode("utf-8") + "\r\n") + ")"
         #</Translate>                    
                             
                     except Exception, e:
@@ -179,7 +163,6 @@ class Gholam(object):
                                 lod = data.split(":")
                                 who = lod[1].split("!")[0]
                                 self.irc.send(self.pc + who + ', kheyli bi adabi!!!' + "\r\n")
-                                print "send: " + strftime("%H:%M:%S", localtime()) + " (" + repr(self.pc + who + ', kheyli bi adabi!!!' + "\r\n") + ")"
                             except Exception, e:
                                 print e
                             break
