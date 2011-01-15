@@ -22,11 +22,9 @@ from django.utils.encoding import smart_str
 # --------- connect
 
 class Gholam(object):
-    zaman = ""
-    whoBot = ""
     def __init__(self, username, channel):
-        self.username = username
-        self.channel = channel
+        self.username = smart_str(username)
+        self.channel = smart_str(channel)
         self.pc = 'PRIVMSG ' + self.channel + ' :'
         self.network = "irc.freenode.net"
         self.port = 6667
@@ -36,6 +34,8 @@ class Gholam(object):
         self.irc.send("NICK " + self.username + "\r\n")
         self.irc.send("USER " + self.username + " " + self.username + " " + self.username + " :Python IRC" + "\r\n")
         self.irc.send("JOIN " + self.channel + "\r\n")
+        self.zaman = ""
+        self.whoBot = ""
     
     # ------------ listen
     
@@ -43,15 +43,19 @@ class Gholam(object):
         counter = 1
         while True:
             data = self.irc.recv(4096)
-            print repr(data)
-            if data.find("PING") != -1:
-        
-                pinger = data.split()[1]
-                self.irc.send("PONG " + pinger + "\r\n")
+            try:
+                if data.find("PING") != -1:
+            
+                    pinger = data.split()[1]
+                    self.irc.send("PONG " + pinger + "\r\n")
+            except Exception, e:
+                print "line 52: " + str(counter) + str(e)
                 
-            if data.find(":" + self.username + "!~" + self.username) != -1 and data.find("JOIN :" + self.channel):
-                zaman = strftime("%H:%M:%S | %A, %Y/%B/%d", localtime())
-        
+            try:
+                if data.find(":" + self.username + "!~" + self.username) != -1 and data.find("JOIN :" + self.channel) != -1:
+                    zaman = strftime("%H:%M:%S | %A, %Y/%B/%d", localtime())
+            except Exception, e:
+                print "line 58: " + str(counter) + str(e)
         # ----------- welcome
         
             #elif data.find('JOIN') != -1:
