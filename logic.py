@@ -28,21 +28,24 @@ class Gholam(object):
         self.pc = 'PRIVMSG ' + self.channel + ' :'
         self.network = "irc.freenode.net"
         self.port = 6667
-        self.irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-        self.irc.connect((self.network, self.port))
-        self.data = self.irc.recv(4096)
-        self.irc.send("NICK " + self.username + "\r\n")
-        self.irc.send("USER " + self.username + " " + self.username + " " + self.username + " :Python IRC" + "\r\n")
-        self.irc.send("JOIN " + self.channel + "\r\n")
         self.zaman = ""
         self.whoBot = ""
+        self.connect()
     
+    def connect(self):
+        self.irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.irc.connect((self.network, self.port))
+        self.data = self.irc.recv(4096)
+        self.irc.send("nick " + self.username + "\r\n")
+        self.irc.send("user " + self.username + " " + self.username + " " + self.username + " :Python IRC" + "\r\n")
+        self.irc.send("join " + self.channel + "\r\n")
     # ------------ listen
     
     def listen(self):
         counter = 1
         while True:
             data = self.irc.recv(4096)
+            print str(counter) + ") " + repr(data) + "\n"
             try:
                 if data.find("PING") != -1:
             
