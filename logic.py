@@ -40,37 +40,38 @@ class Gholam(object):
         self.irc.send("nick %s\r\n" % self.username)
         self.irc.send("user %s %s %s :Python IRC\r\n" % (self.username, self.username, self.username))
         self.irc.send("join %s\r\n" % self.channel)
+        self.isFosh = False
         
     
     def listen(self):
         counter = 1
         while True:
-            data = self.irc.recv(4096)
-            if data:
-                print str(counter) + ") " + repr(data) + "\n"
+            self.data = self.irc.recv(4096)
+            if self.data:
+                print str(counter) + ") " + repr(self.data) + "\n"
                 
-                if data.find("PING") != -1:
-                    pinger = data.split()[1]
+                if self.data.find("PING") != -1:
+                    pinger = self.data.split()[1]
                     self.irc.send("PONG %s\r\n" % pinger)
                     
                 
-                if data.find(":%s!~%s" % (self.username, self.username)) != -1 and data.find("JOIN :" + self.channel) != -1:
+                if self.data.find(":%s!~%s" % (self.username, self.username)) != -1 and self.data.find("JOIN :" + self.channel) != -1:
                     zaman = strftime("%H:%M:%S | %A, %Y/%B/%d", localtime())
             
-                if data.find(":la_fen!~la_fen@") != -1:
-                    data = data[data.index("PRIVMSG %s :" % self.username) + 16:]
-                    self.irc.send("%s%s, %s" % (self.pc, self.whoBot, data))
+                if self.data.find(":la_fen!~la_fen@") != -1:
+                    self.data = self.data[self.data.index("PRIVMSG %s :" % self.username) + 16:]
+                    self.irc.send("%s%s, %s" % (self.pc, self.whoBot, self.data))
             
-                elif data.find(self.pc) != -1:
-                    lod = data.split("!")
+                elif self.data.find(self.pc) != -1:
+                    lod = self.data.split("!")
                     who = lod[0]
                     who = who[1:]
                     pm = self.pc + who + ', '
             
             # -------------- help
             
-                    if data.find(':!help') != -1:
-                        if data.find(self.username + "!") == -1:
+                    if self.data.find(':!help') != -1:
+                        if self.data.find(self.username + "!") == -1:
                             self.irc.send("%shttps://bitbucket.org/aminpy/gholam/issue/1/gholam-commands\r\n" % pm)
             
             # ------------- khuruj
@@ -81,18 +82,18 @@ class Gholam(object):
             
             # ---------------- about
             
-                    elif data.find(":!about") != -1:
+                    elif self.data.find(":!about") != -1:
                         self.irc.send("%sMy name is %s, I was born in 28 December 2010 and I\'m written in python.\r\n" % (pm, self.username))
                             
             # --------------- time
                             
-                    elif data.find(":!time") != -1:
+                    elif self.data.find(":!time") != -1:
                         self.irc.send("%s%s\r\n" % (pm, strftime("%H:%M:%S", localtime())))
                     
-                    elif data.find(":!when") != -1:
+                    elif self.data.find(":!when") != -1:
                         self.irc.send("%s%s\r\n" % (pm, zaman))
                         
-                    elif data.find(":!date") != -1:
+                    elif self.data.find(":!date") != -1:
                         tagh = strftime("%Y/%m/%d", localtime()).split("/")
                         taghvim = Calverter().gregorian_to_iranian(int(tagh[0]), int(tagh[1]), int(tagh[2]))
                         year = taghvim[0]
@@ -103,8 +104,8 @@ class Gholam(object):
                         
             # ---------- dot commands
             
-                    elif data.find(':.') != -1:
-                        lod = data.split(":")
+                    elif self.data.find(':.') != -1:
+                        lod = self.data.split(":")
                         who = lod[1].split("!")[0]
                         lang = lod[2].split(" ")[0]
                         ebarat = ' '.join(lod[2].split(" ")[1: ])
@@ -115,26 +116,26 @@ class Gholam(object):
                         try:
             
             #<GoogleSearch>
-                            if data.find(":.web ") != -1:
+                            if self.data.find(":.web ") != -1:
                                 url = "http://www.google.com/search?q=%s" % ebarat
                                 self.irc.send("%s%s\r\n" % (pm, url.replace(" ", "+")))
                                 
-                            elif data.find(":.img") != -1:
+                            elif self.data.find(":.img") != -1:
                                 url = "http://www.google.com/images?q=%s" % ebarat
                                 self.irc.send("%s%s\r\n" % (pm, url.replace(" ", "+")))
                                 
-                            elif data.find(":.vid") != -1:
+                            elif self.data.find(":.vid") != -1:
                                 url = "http://www.google.com/search?q=%s&tbs=vid:1" % ebarat
                                 self.irc.send("%s%s\r\n" % (pm, url.replace(" ", "+")))
             #</GoogleSearch>
             
             #<ContactWithRobot>
             
-                            elif data.find(":.w") != -1:
+                            elif self.data.find(":.w") != -1:
                                 self.irc.send("PRIVMSG la_fen :.w %s\r\n" % ebarat)
                                 self.whoBot = who
             
-                            elif data.find(":.dict") != -1:
+                            elif self.data.find(":.dict") != -1:
                                 self.irc.send("PRIVMSG la_fen :.dict %s\r\n" % ebarat)
                                 self.whoBot = who
                                 
@@ -155,17 +156,17 @@ class Gholam(object):
                                     
                 if self.isFosh:
                     for s in foshes.foshes:
-                        if data.find(s):
-                            if foshes.isFosh(s, data):
+                        if self.data.find(s):
+                            if foshes.isFosh(s, self.data):
                                 try:
-                                    lod = data.split(":")
+                                    lod = self.data.split(":")
                                     who = lod[1].split("!")[0]
                                     self.irc.send("%skheyli bi adabi!!!\r\n" % pm)
                                 except Exception, e:
                                     print e
                                 break
                             
-                if self.channel == "#5hit" and data.find("fuck up") != -1:
+                if self.channel == "#5hit" and self.data.find("fuck up") != -1:
                     self.isFosh = True
                     
             # </5hit>
