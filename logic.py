@@ -17,6 +17,7 @@ from xgoogle.translate import Translator
 from time import localtime
 from time import strftime
 from calverter import Calverter
+from django.utils.encoding import smart_str
 
 # --------- connect
 
@@ -40,11 +41,9 @@ class Gholam(object):
     
     def listen(self):
         counter = 1
-        
         while True:
-            
             data = self.irc.recv(4096)
-            
+            print repr(data)
             if data.find("PING") != -1:
         
                 pinger = data.split()[1]
@@ -143,18 +142,19 @@ class Gholam(object):
                             self.whoBot = who
                             
         #</ContactWithRobot>
-        
+
         #<Translate>
                         else:
                             lt = lang[1:3]
                             lf = lang[-2:]
-                            self.irc.send(self.pc + who + ', ' + Translator().translate(ebarat, lf, lt).encode("utf-8") + "\r\n")
-        #</Translate>                    
+                            matn = smart_str(Translator().translate(ebarat, lf, lt))
+                            self.irc.send(str(self.pc + who) + ', ' + matn + str("\r\n"))
+        #</Translate>
                             
                     except Exception, e:
                         print e
         
-        
+
             if counter >= 12:
                 for s in foshes.foshes:
                     if data.find(s):
