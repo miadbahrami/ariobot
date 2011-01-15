@@ -19,8 +19,6 @@ from time import strftime
 from calverter import Calverter
 from django.utils.encoding import smart_str
 
-# --------- connect
-
 class Gholam(object):
     
     def __init__(self, username, channel):
@@ -32,7 +30,7 @@ class Gholam(object):
         self.zaman = ""
         self.whoBot = ""
         self.connect()
-    
+
     def connect(self):
         self.irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.irc.connect((self.network, self.port))
@@ -40,6 +38,7 @@ class Gholam(object):
         self.irc.send("nick " + self.username + "\r\n")
         self.irc.send("user " + self.username + " " + self.username + " " + self.username + " :Python IRC" + "\r\n")
         self.irc.send("join " + self.channel + "\r\n")
+        
     # ------------ listen
     
     def listen(self):
@@ -48,19 +47,15 @@ class Gholam(object):
             data = self.irc.recv(4096)
             if data:
                 print str(counter) + ") " + repr(data) + "\n"
-                try:
-                    if data.find("PING") != -1:
                 
-                        pinger = data.split()[1]
-                        self.irc.send("PONG " + pinger + "\r\n")
-                except Exception, e:
-                    print "line 52: " + str(counter) + str(e)
+                if data.find("PING") != -1:
+                    pinger = data.split()[1]
+                    self.irc.send("PONG " + pinger + "\r\n")
                     
-                try:
-                    if data.find(":" + self.username + "!~" + self.username) != -1 and data.find("JOIN :" + self.channel) != -1:
+                
+                if data.find(":" + self.username + "!~" + self.username) != -1 and data.find("JOIN :" + self.channel) != -1:
                         zaman = strftime("%H:%M:%S | %A, %Y/%B/%d", localtime())
-                except Exception, e:
-                    print "line 58: " + str(counter) + str(e)
+                        
             # ----------- welcome
             
                 #elif data.find('JOIN') != -1:
