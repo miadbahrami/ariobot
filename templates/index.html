@@ -6,16 +6,22 @@
 	</head>
 	<body>
 		<form action="/logic/">
-			<table align='center' style="border: double;">
-				<tr><td align="center" colspan="2">Login to Freenode</td></tr>
-				<tr><td>UserName</td>
-				<td><input type='text' name='username' /></td></tr>
-				<tr><td>Channel</td>
-				<td><input type="text" name="channel" /></td></tr>
-				<tr><td colspan='2' align='center'><input type="submit" value="login" /></td></tr>
-				{% if error %}
-					<tr><td colspan='2' align='center' style="color: red">please fill anything</td></tr>
-				{% endif %}
+			<table align='center'>
+			<tr><td>
+				<table align='center' style="border: double;">
+					<tr><td align="center" colspan="2">Login to Freenode</td></tr>
+					<tr><td>UserName</td>
+					<td><input type='text' name='username' /></td></tr>
+					<tr><td>Channel</td>
+					<td><input type="text" name="channel" /></td></tr>
+					<tr><td colspan='2' align='center'><input type="submit" value="login" /></td></tr>
+					{% if error %}
+						<tr><td colspan='2' align='center' style="color: red">please fill anything</td></tr>
+					{% endif %}
+				</table>
+				</td>
+				<td><img src="media/pic/gholam.jpg">
+				</td></tr>
 			</table>
 		</form>
 	</body>
