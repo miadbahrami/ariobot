@@ -7,7 +7,6 @@ from gholam import views
 
 urlpatterns = patterns('',
     (r'^$', views.index),
-    (r'^check/$', views.loginCheck),
     (r'^logic/$', views.logic),
     # Example:
     # (r'^gholam/', include('gholam.foo.urls')),

@@ -86,7 +86,6 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-    'gholam.ups',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
