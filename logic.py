@@ -13,7 +13,7 @@
 
 import socket
 import foshes
-from xgoogle.translate import Translator
+from translate.translate import Translator
 from time import localtime
 from time import strftime
 from calverter import Calverter

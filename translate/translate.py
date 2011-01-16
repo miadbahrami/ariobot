@@ -11,10 +11,8 @@
 from browser import Browser, BrowserError
 from urllib import quote_plus
 
-try:
-    import json
-except:
-    import simplejson as json
+try:    import json
+except: import simplejson as json
 
 
 class TranslationError(Exception):
@@ -35,12 +33,13 @@ class Translator(object):
 
         if lang_to not in _languages:
             raise TranslationError, "Language %s is not supported as lang_to." % lang_to
-        
         if lang_from not in _languages and lang_from != '':
             raise TranslationError, "Language %s is not supported as lang_from." % lang_from
 
         message = quote_plus(message)
-        real_url = Translator.translate_url % {'message': message, 'from': lang_from, 'to': lang_to}
+        real_url = Translator.translate_url % { 'message': message,
+                                                'from':    lang_from,
+                                                'to':      lang_to }
 
         try:
             translation = self.browser.get_page(real_url)
@@ -50,7 +49,6 @@ class Translator(object):
                 raise TranslationError, "Failed translating: %s" % data['responseDetails']
 
             return data['responseData']['translatedText']
-        
         except BrowserError, e:
             raise TranslationError, "Failed translating (getting %s failed): %s" % (e.url, e.error)
         except ValueError, e:
@@ -100,8 +98,8 @@ class LanguageDetector(object):
 
         except BrowserError, e:
             raise DetectionError, "Failed detecting language (getting %s failed): %s" % (e.url, e.error)
-        except ValueError, e:
-            raise DetectionError, "Failed detecting language (json failed): %s" % e.message
+#        except ValueError, e:
+#            raise DetectionErrro, "Failed detecting language (json failed): %s" % e.message
         except KeyError, e:
             raise DetectionError, "Failed detecting language, response didn't contain the necessary data"
 
