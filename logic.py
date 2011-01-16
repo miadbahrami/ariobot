@@ -53,7 +53,6 @@ class Gholam(object):
                 if self.data.find("PING") != -1:
                     pinger = self.data.split()[1]
                     self.irc.send("PONG %s\r\n" % pinger)
-                    
                 
                 if self.data.find(":%s!~%s" % (self.username, self.username)) != -1 and self.data.find("JOIN :" + self.channel) != -1:
                     zaman = strftime("%H:%M:%S | %A, %Y/%B/%d", localtime())
@@ -67,9 +66,9 @@ class Gholam(object):
                     who = lod[0]
                     who = who[1:]
                     pm = self.pc + who + ', '
-            
+
             # -------------- help
-            
+
                     if self.data.find(':!help') != -1:
                         if self.data.find(self.username + "!") == -1:
                             self.irc.send("%shttps://bitbucket.org/aminpy/gholam/issue/1/gholam-commands\r\n" % pm)
@@ -120,11 +119,11 @@ class Gholam(object):
                                 url = "http://www.google.com/search?q=%s" % ebarat
                                 self.irc.send("%s%s\r\n" % (pm, url.replace(" ", "+")))
                                 
-                            elif self.data.find(":.img") != -1:
+                            elif self.data.find(":.img ") != -1:
                                 url = "http://www.google.com/images?q=%s" % ebarat
                                 self.irc.send("%s%s\r\n" % (pm, url.replace(" ", "+")))
                                 
-                            elif self.data.find(":.vid") != -1:
+                            elif self.data.find(":.vid ") != -1:
                                 url = "http://www.google.com/search?q=%s&tbs=vid:1" % ebarat
                                 self.irc.send("%s%s\r\n" % (pm, url.replace(" ", "+")))
             #</GoogleSearch>
@@ -153,7 +152,7 @@ class Gholam(object):
                             print e
                     
             # <5hit>
-                                    
+
                 if self.isFosh:
                     for s in foshes.foshes:
                         if self.data.find(s):
@@ -165,8 +164,11 @@ class Gholam(object):
                                 except Exception, e:
                                     print e
                                 break
-                            
-                if self.channel == "#5hit" and self.data.find("fuck up") != -1:
+
+                if self.channel != "#5hit":
+                    self.isFosh = True
+                    
+                elif self.data.find("fuck up") != -1:
                     self.isFosh = True
                     
             # </5hit>
