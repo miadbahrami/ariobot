@@ -8,8 +8,9 @@ def index(request):
 def logic(request):
     user = request.GET['username']
     chan = request.GET['channel']
+    password = request.GET['password']
     if user and chan:
-        Gholam(user, chan).listen()
+        Gholam(user, chan, password).listen()
         return HttpResponse("logining ...")
     else:
         return render_to_response("index.html", {"error": "True"})

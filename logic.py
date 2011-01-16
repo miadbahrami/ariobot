@@ -21,10 +21,11 @@ from django.utils.encoding import smart_str
 
 class Gholam(object):
     
-    def __init__(self, username, channel):
+    def __init__(self, username, channel, password):
         self.username = smart_str(username)
         self.channel = smart_str(channel)
-        self.pc = 'PRIVMSG %s :' % self.channel
+        self.password = smart_str(password)
+        self.pc = 'privmsg %s :' % self.channel
         self.network = "irc.freenode.net"
         self.port = 6667
         self.zaman = ""
@@ -32,13 +33,13 @@ class Gholam(object):
         self.isFosh = False
         self.connect()
 
-
     def connect(self):
         self.irc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.irc.connect((self.network, self.port))
         self.data = self.irc.recv(4096)
         self.irc.send("nick %s\r\n" % self.username)
         self.irc.send("user %s %s %s :Python IRC\r\n" % (self.username, self.username, self.username))
+        self.irc.send("privmsg nickserv :identify %s\r\n" % self.password)
         self.irc.send("join %s\r\n" % self.channel)
         self.isFosh = False
         
@@ -54,13 +55,15 @@ class Gholam(object):
                     pinger = self.data.split()[1]
                     self.irc.send("PONG %s\r\n" % pinger)
                 
-                if self.data.find(":%s!~%s" % (self.username, self.username)) != -1 and self.data.find("JOIN :" + self.channel) != -1:
+                elif self.data.find(":%s!~%s" % (self.username, self.username)) != -1 and self.data.find("JOIN :" + self.channel) != -1:
                     zaman = strftime("%H:%M:%S | %A, %Y/%B/%d", localtime())
             
-                if self.data.find(":la_fen!~la_fen@") != -1:
+                elif self.data.find(":la_fen!~la_fen@") != -1:
                     self.data = self.data[self.data.index("PRIVMSG %s :" % self.username) + 16:]
                     self.irc.send("%s%s, %s" % (self.pc, self.whoBot, self.data))
             
+            #---------------------------
+
                 elif self.data.find(self.pc) != -1:
                     lod = self.data.split("!")
                     who = lod[0]
@@ -86,9 +89,6 @@ class Gholam(object):
                             
             # --------------- time
                             
-                    elif self.data.find(":!time") != -1:
-                        self.irc.send("%s%s\r\n" % (pm, strftime("%H:%M:%S", localtime())))
-                    
                     elif self.data.find(":!when") != -1:
                         self.irc.send("%s%s\r\n" % (pm, zaman))
                         
@@ -99,10 +99,10 @@ class Gholam(object):
                         month = taghvim[1]
                         day = taghvim[2]
                         wikDay = taghvim[3]
-                        self.irc.send("%s%s | %s %s %s %s\r\n" % (pm, strftime("%a, %Y/%b/%d", localtime()), wikDay, day, month, year))
+                        self.irc.send("%s%s %s %s %s %s ساعت \r\n" % (pm, strftime("%H:%M:%S", localtime()), wikDay, day, month, year))
                         
             # ---------- dot commands
-            
+
                     elif self.data.find(':.') != -1:
                         lod = self.data.split(":")
                         who = lod[1].split("!")[0]
@@ -160,7 +160,7 @@ class Gholam(object):
                                 try:
                                     lod = self.data.split(":")
                                     who = lod[1].split("!")[0]
-                                    self.irc.send("%skheyli bi adabi!!!\r\n" % pm)
+                                    self.irc.send("%skheyli bi adabi!\r\n" % pm)
                                 except Exception, e:
                                     print e
                                 break
