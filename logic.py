@@ -45,11 +45,13 @@ class Gholam(object):
         
     
     def listen(self):
+        print self.data
         counter = 1
         while True:
             self.data = self.irc.recv(4096)
             if self.data:
-                print str(counter) + ") " + repr(self.data) + "\n"
+                
+                print "<%s>\n%s</%s>\n" % (str(counter), self.data, str(counter))
                 
                 if self.data.find("PING") != -1:
                     pinger = self.data.split()[1]
