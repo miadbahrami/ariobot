@@ -31,6 +31,7 @@ class Gholam(object):
         self.zaman = ""
         self.whoBot = ""
         self.isFosh = False
+        self.send = ""
         self.connect()
 
     def connect(self):
@@ -48,21 +49,24 @@ class Gholam(object):
         print self.data
         counter = 1
         while True:
+            print "\n%s)-=-=-=-=-=-=-=-\n" % str(counter)
             self.data = self.irc.recv(4096)
             if self.data:
-                
-                print "<%s>\n%s</%s>\n" % (str(counter), self.data, str(counter))
+
+                print "<receive>\n%s\n</receive>" % repr(self.data)
                 
                 if self.data.find("PING") != -1:
                     pinger = self.data.split()[1]
-                    self.irc.send("PONG %s\r\n" % pinger)
+                    self.send = "PONG %s\r\n" % pinger
+                    self.irc.send(self.send)
                 
                 elif self.data.find(":%s!~%s" % (self.username, self.username)) != -1 and self.data.find("JOIN :" + self.channel) != -1:
                     zaman = strftime("%H:%M:%S | %A, %Y/%B/%d", localtime())
             
                 elif self.data.find(":la_fen!~la_fen@") != -1:
                     self.data = self.data[self.data.index("PRIVMSG %s :" % self.username) + 16:]
-                    self.irc.send("%s%s, %s" % (self.pc, self.whoBot, self.data))
+                    self.send = "%s%s, %s" % (self.pc, self.whoBot, self.data)
+                    self.irc.send(self.send)
             
             #---------------------------
 
@@ -76,7 +80,8 @@ class Gholam(object):
 
                     if self.data.find(":!help ") != -1:
                         if self.data.find(self.username + "!") == -1:
-                            self.irc.send("%shttps://bitbucket.org/aminpy/gholam/issue/1/gholam-commands\r\n" % pm)
+                            self.send = "%shttps://bitbucket.org/aminpy/gholam/issue/1/gholam-commands\r\n" % pm
+                            self.irc.send(self.send)
             
             # ------------- khuruj
             
@@ -87,12 +92,14 @@ class Gholam(object):
             # ---------------- about
             
                     elif self.data.find(":!about ") != -1:
-                        self.irc.send("%sMy name is %s, I was born in 28 December 2010 and I\'m written in python.\r\n" % (pm, self.username))
+                        self.send = "%sMy name is %s, I was born in 28 December 2010 and I\'m written in python.\r\n" % (pm, self.username)
+                        self.irc.send(self.send)
                             
             # --------------- time
                             
                     elif self.data.find(":!when ") != -1:
-                        self.irc.send("%s%s\r\n" % (pm, zaman))
+                        self.send = "%s%s\r\n" % (pm, zaman)
+                        self.irc.send(self.send)
                         
                     elif self.data.find(":!date ") != -1:
                         tagh = strftime("%Y/%m/%d", localtime()).split("/")
@@ -101,7 +108,8 @@ class Gholam(object):
                         month = taghvim[1]
                         day = taghvim[2]
                         wikDay = taghvim[3]
-                        self.irc.send("%s%s %s %s %s %s ساعت \r\n" % (pm, strftime("%H:%M:%S", localtime()), wikDay, day, month, year))
+                        self.send = "%s%s %s %s %s %s ساعت \r\n" % (pm, strftime("%H:%M:%S", localtime()), wikDay, day, month, year)
+                        self.irc.send(self.send)
                         
             # ---------- dot commands
 
@@ -119,25 +127,30 @@ class Gholam(object):
             #<GoogleSearch>
                             if self.data.find(":.web ") != -1:
                                 url = "http://www.google.com/search?q=%s" % ebarat
-                                self.irc.send("%s%s\r\n" % (pm, url.replace(" ", "+")))
+                                self.send = "%s%s\r\n" % (pm, url.replace(" ", "+"))
+                                self.irc.send(self.send)
                                 
                             elif self.data.find(":.img ") != -1:
                                 url = "http://www.google.com/images?q=%s" % ebarat
-                                self.irc.send("%s%s\r\n" % (pm, url.replace(" ", "+")))
+                                self.send = "%s%s\r\n" % (pm, url.replace(" ", "+"))
+                                self.irc.send(self.send)
                                 
                             elif self.data.find(":.vid ") != -1:
                                 url = "http://www.google.com/search?q=%s&tbs=vid:1" % ebarat
-                                self.irc.send("%s%s\r\n" % (pm, url.replace(" ", "+")))
+                                self.send = "%s%s\r\n" % (pm, url.replace(" ", "+"))
+                                self.irc.send(self.send)
             #</GoogleSearch>
             
             #<ContactWithRobot>
             
                             elif self.data.find(":.w ") != -1:
-                                self.irc.send("PRIVMSG la_fen :.w %s\r\n" % ebarat)
+                                self.send = "PRIVMSG la_fen :.w %s\r\n" % ebarat
+                                self.irc.send(self.send)
                                 self.whoBot = who
             
                             elif self.data.find(":.dict ") != -1:
-                                self.irc.send("PRIVMSG la_fen :.dict %s\r\n" % ebarat)
+                                self.send = "PRIVMSG la_fen :.dict %s\r\n" % ebarat
+                                self.irc.send(self.send)
                                 self.whoBot = who
                                 
             #</ContactWithRobot>
@@ -147,7 +160,8 @@ class Gholam(object):
                                 lt = lang[1:3]
                                 lf = lang[-2:]
                                 matn = smart_str(Translator().translate(ebarat, lf, lt))
-                                self.irc.send(str(pm) + matn + str("\r\n"))
+                                self.send = str(pm) + matn + str("\r\n")
+                                self.irc.send(self.send)
             #</Translate>
                                 
                         except Exception, e:
@@ -162,7 +176,8 @@ class Gholam(object):
                                 try:
                                     lod = self.data.split(":")
                                     who = lod[1].split("!")[0]
-                                    self.irc.send("%skheyli bi adabi!\r\n" % pm)
+                                    self.send = "%skheyli bi adabi!\r\n" % pm
+                                    self.irc.send(self.send)
                                 except Exception, e:
                                     print e
                                 break
@@ -174,7 +189,10 @@ class Gholam(object):
                     self.isFosh = True
                     
             # </5hit>
-
+                if self.send:
+                    print "\n<send>\n%s\n</send>" % repr(self.send)
+                    self.send = ""
+                    
                 counter += 1
 
             else:
