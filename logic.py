@@ -25,7 +25,7 @@ class Gholam(object):
         self.username = smart_str(username)
         self.channel = smart_str(channel)
         self.password = smart_str(password)
-        self.pc = 'privmsg %s :' % self.channel
+        self.pc = 'PRIVMSG %s :' % self.channel
         self.network = "irc.freenode.net"
         self.port = 6667
         self.zaman = ""
@@ -74,7 +74,7 @@ class Gholam(object):
 
             # -------------- help
 
-                    if self.data.find(':!help') != -1:
+                    if self.data.find(":!help ") != -1:
                         if self.data.find(self.username + "!") == -1:
                             self.irc.send("%shttps://bitbucket.org/aminpy/gholam/issue/1/gholam-commands\r\n" % pm)
             
@@ -86,15 +86,15 @@ class Gholam(object):
             
             # ---------------- about
             
-                    elif self.data.find(":!about") != -1:
+                    elif self.data.find(":!about ") != -1:
                         self.irc.send("%sMy name is %s, I was born in 28 December 2010 and I\'m written in python.\r\n" % (pm, self.username))
                             
             # --------------- time
                             
-                    elif self.data.find(":!when") != -1:
+                    elif self.data.find(":!when ") != -1:
                         self.irc.send("%s%s\r\n" % (pm, zaman))
                         
-                    elif self.data.find(":!date") != -1:
+                    elif self.data.find(":!date ") != -1:
                         tagh = strftime("%Y/%m/%d", localtime()).split("/")
                         taghvim = Calverter().gregorian_to_iranian(int(tagh[0]), int(tagh[1]), int(tagh[2]))
                         year = taghvim[0]
@@ -132,11 +132,11 @@ class Gholam(object):
             
             #<ContactWithRobot>
             
-                            elif self.data.find(":.w") != -1:
+                            elif self.data.find(":.w ") != -1:
                                 self.irc.send("PRIVMSG la_fen :.w %s\r\n" % ebarat)
                                 self.whoBot = who
             
-                            elif self.data.find(":.dict") != -1:
+                            elif self.data.find(":.dict ") != -1:
                                 self.irc.send("PRIVMSG la_fen :.dict %s\r\n" % ebarat)
                                 self.whoBot = who
                                 
