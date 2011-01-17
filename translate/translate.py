@@ -11,8 +11,10 @@
 from browser import Browser, BrowserError
 from urllib import quote_plus
 
-try:    import json
-except: import simplejson as json
+try:
+    import json
+except:
+    import simplejson as json
 
 
 class TranslationError(Exception):
