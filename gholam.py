@@ -35,18 +35,8 @@ class Gholam(irc.IRCClient):
             ebarat = msg[5:]
             send = ""
             print "%s: %s" % (id, msg,)
-            
-#<contactBot>            
-            if msg.startswith(".w "):
-                self.msg("la_fen", msg)
-                self.whoBot = id
 
-            elif msg.startswith(".dict "):
-                self.msg("le_fen", msg)
-                self.whoBot = id
-#</contactBot>
-            
-            elif msg == "!help":
+            if msg == "!help":
                 send = "%s, https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands" % id
                 self.msg(channel, send)
                 
