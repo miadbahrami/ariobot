@@ -12,6 +12,10 @@
 
 from twisted.words.protocols import irc
 from translate.translate import Translator
+from mytime import time
+from mytime import weekday
+from mytime import shamsi
+
 
 class Gholam(irc.IRCClient):
     isChannel = False
@@ -23,12 +27,12 @@ class Gholam(irc.IRCClient):
 
     def signedOn(self):
         self.join(self.factory.channel)
-        print "Ba id e %s be server vasl shodam." % (self.nickname,)
+        print "%s - ba nick e %s be server vasl shodam." % (time(), self.nickname,)
 
     def joined(self, channel):
         self.isChannel = True
         self.channel = channel
-        print "Raftam tu %s." % (channel,)
+        print "%s - Raftam tu %s." % (time(), channel,)
         
         
     def userRenamed(self, oldname, newname): 
@@ -40,7 +44,7 @@ class Gholam(irc.IRCClient):
             if channel[0] == "#":
                 ebarat = msg[5:]
                 send = ""
-                print "%s: %s" % (id, msg,)
+                print "%s - %s: %s" % (time(), id, msg,)
     
                 if msg == "!help":
                     send = "%s, https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands" % id
@@ -48,6 +52,14 @@ class Gholam(irc.IRCClient):
                     
                 elif msg == "!about":
                     send = "%s, My name is Gholam, I was born in 28 December 2010 and I'm written in python." % id
+                    self.msg(channel, send)
+                    
+                elif msg == "!date":
+                    send = "%s, %s - %s" % (id, weekday(), shamsi())
+                    self.msg(channel, send)
+                    
+                elif msg == "!time":
+                    send = "%s, %s" % (id, time())
                     self.msg(channel, send)
     
                 elif msg.startswith(".web "):
@@ -74,11 +86,11 @@ class Gholam(irc.IRCClient):
                     self.msg(channel, send)
     
                 if send:
-                    print "%s: %s" % (self.nickname, send)
+                    print "%s - %s: %s" % (time(), self.nickname, send)
 
             else:
-                print "%s: >%s<, %s" % (id, self.nickname, msg)
+                print "%s - %s: >%s<, %s" % (time(), id, self.nickname, msg)
                 send = "help -> https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands"
                 if id != "ChanServ":
                     self.msg(id, send)
-                    print "%s: >%s<, %s" % (self.nickname, id, send)
+                    print "%s - %s: >%s<, %s" % (time(), self.nickname, id, send)
