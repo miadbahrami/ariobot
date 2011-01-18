@@ -75,8 +75,10 @@ class Gholam(irc.IRCClient):
     
                 if send:
                     print "%s: %s" % (self.nickname, send)
+
             else:
                 print "%s: >%s<, %s" % (id, self.nickname, msg)
                 send = "help -> https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands"
-                self.msg(id, send)
-                print "%s: >%s<, %s" % (self.nickname, id, send)
+                if id != "ChanServ":
+                    self.msg(id, send)
+                    print "%s: >%s<, %s" % (self.nickname, id, send)
