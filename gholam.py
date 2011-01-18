@@ -27,11 +27,12 @@ class Gholam(irc.IRCClient):
 
     def joined(self, channel):
         self.isChannel = True
+        self.channel = channel
         print "Raftam tu %s." % (channel,)
         
         
     def userRenamed(self, oldname, newname): 
-        self.msg("#harchi", "%s, shakh shodi nick avaz mikoni?!" % newname)
+        self.msg(self.channel, "%s, shakh shodi nick avaz mikoni?!" % newname)
 
     def privmsg(self, user, channel, msg):
         if self.isChannel:
@@ -75,7 +76,7 @@ class Gholam(irc.IRCClient):
                 if send:
                     print "%s: %s" % (self.nickname, send)
             else:
-                print "priv of %s: %s" % (id, msg)
+                print "%s: >%s<, %s" % (id, self.nickname, msg)
                 send = "help -> https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands"
                 self.msg(id, send)
-                print "priv to %s: %s" % (id, send)
+                print "%s: >%s<, %s" % (self.nickname, id, send)
