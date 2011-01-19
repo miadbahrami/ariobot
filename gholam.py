@@ -97,7 +97,7 @@ class Gholam(irc.IRCClient):
 
             else:
                 print "%s - %s: >%s<, %s" % (strftime("%X"), id, self.nickname, msg)
-                send = "commands -> https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands"
+                send = "https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands"
                 if id != "ChanServ" and id != "NickServ":
                     self.msg(id, send)
-                print "%s - %s: >%s<, %s" % (strftime("%X"), self.nickname, id, send)
+                    print "%s - %s: >%s<, %s" % (strftime("%X"), self.nickname, id, send)
