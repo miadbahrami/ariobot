@@ -11,11 +11,11 @@
 ##   GNU General Public License for more details.
 
 from twisted.words.protocols import irc
-from translate.translate import Translator
-from mytime import time
-from mytime import weekday
-from mytime import shamsi
-from wiktionary import wikt
+from modules.translate import Translator
+from modules.mytime import time
+from modules.mytime import weekday
+from modules.mytime import shamsi
+from modules.wiktionary import wikt
 
 
 class Gholam(irc.IRCClient):
@@ -46,28 +46,19 @@ class Gholam(irc.IRCClient):
                 ebarat = msg[5:]
                 send = ""
                 print "%s - %s: %s" % (time(), id, msg,)
-    
-                if msg == "!help":
-                    send = "%s, https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands" % id
-                    self.msg(channel, send)
 
-                elif msg == "!about":
-                    send = "%s, My name is Gholam, I was born in 28 December 2010 and I'm written in python." % id
-                    self.msg(channel, send)
-                    
-                elif msg == "!date":
-                    send = "%s, %s - %s" % (id, weekday(), shamsi())
-                    self.msg(channel, send)
-                    
-                elif msg == "!time":
-                    send = "%s, %s" % (id, time())
-                    self.msg(channel, send)
-                    
-                elif msg == "!author":
-                    send = "%s, Amin Oruji - aminpy@gmail.com" % id
-                    self.msg(channel, send)
+                msgDic = {
+                     "!help":  "%s, https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands" % id,
+                     "!about": "%s, My name is Gholam, I was born in 28 December 2010 and I'm written in python." % id,
+                     "!date": "%s, %s - %s" % (id, weekday(), shamsi()),
+                     "!time": "%s, %s" % (id, time()),
+                     "!author": "%s, Amin Oruji - aminpy@gmail.com" % id 
+                }
+
+                send = msgDic.get(msg)
+                self.msg(channel, send)
                      
-                elif msg.startswith(".web "):
+                if msg.startswith(".web "):
                     url = "http://www.google.com/search?q=%s" % ebarat
                     send = "%s, %s" % (id, url.replace(" ", "+"))
                     self.msg(channel, send)
