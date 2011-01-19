@@ -1,6 +1,3 @@
-#coding: utf-8
+from wiktionary import wikt
 
-
-from mytime import shamsi, wikday
-
-print wikday()
+print wikt("mother")

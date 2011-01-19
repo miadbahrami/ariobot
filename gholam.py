@@ -15,6 +15,7 @@ from translate.translate import Translator
 from mytime import time
 from mytime import weekday
 from mytime import shamsi
+from wiktionary import wikt
 
 
 class Gholam(irc.IRCClient):
@@ -49,7 +50,7 @@ class Gholam(irc.IRCClient):
                 if msg == "!help":
                     send = "%s, https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands" % id
                     self.msg(channel, send)
-                    
+
                 elif msg == "!about":
                     send = "%s, My name is Gholam, I was born in 28 December 2010 and I'm written in python." % id
                     self.msg(channel, send)
@@ -61,12 +62,26 @@ class Gholam(irc.IRCClient):
                 elif msg == "!time":
                     send = "%s, %s" % (id, time())
                     self.msg(channel, send)
-    
+                    
+                elif msg == "!author":
+                    send = "%s, Amin Oruji - aminpy@gmail.com" % id
+                    self.msg(channel, send)
+                     
                 elif msg.startswith(".web "):
                     url = "http://www.google.com/search?q=%s" % ebarat
                     send = "%s, %s" % (id, url.replace(" ", "+"))
                     self.msg(channel, send)
     
+                elif msg.startswith("%s, " % self.nickname) or msg.startswith("%s: " % self.nickname):
+                    send = "help -> https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands"
+                    self.msg(id, send)
+                    print "%s - %s: >%s<, %s" % (time(), self.nickname, id, send) 
+
+                elif msg.startswith(".w "):
+                    msg = msg.split()[1]
+                    send = "%s, %s" % (id, wikt(msg))
+                    self.msg(channel, send)
+                    
                 elif msg.startswith(".img "):
                     url = "http://www.google.com/images?q=%s" % ebarat
                     send = "%s, %s" % (id, url.replace(" ", "+"))
