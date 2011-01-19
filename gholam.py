@@ -49,7 +49,7 @@ class Gholam(irc.IRCClient):
             if channel[0] == "#":
                 ebarat = msg[5:]
                 send = ""
-                print "%s - %s: %s" % (strftime("%X"), id, msg,)
+                print "%s-%s: %s" % (strftime("%X"), id, msg,)
 
 # without phrase commands              
                 if msg.startswith("!"):
@@ -58,7 +58,7 @@ class Gholam(irc.IRCClient):
                     
 # ping bot
                 elif msg.startswith("%s, " % self.nickname) or msg.startswith("%s: " % self.nickname):
-                    send = "help -> https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands"
+                    send = "https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands"
                     self.msg(id, send)
 
 # with phrase commands
@@ -93,11 +93,11 @@ class Gholam(irc.IRCClient):
                         self.msg(channel, send)
     
                 if send:
-                    print "%s - %s: %s" % (strftime("%X"), self.nickname, send)
+                    print "%s-%s: %s" % (strftime("%X"), self.nickname, send)
 
             else:
-                print "%s - %s: >%s<, %s" % (strftime("%X"), id, self.nickname, msg)
+                print "%s-%s: >%s<, %s" % (strftime("%X"), id, self.nickname, msg)
                 send = "https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands"
                 if id != "ChanServ" and id != "NickServ":
                     self.msg(id, send)
-                    print "%s - %s: >%s<, %s" % (strftime("%X"), self.nickname, id, send)
+                    print "%s-%s: >%s<, %s" % (strftime("%X"), self.nickname, id, send)
