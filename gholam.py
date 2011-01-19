@@ -13,9 +13,8 @@
 from twisted.words.protocols import irc
 from modules.translate import Translator
 from modules.mytime import time
-from modules.mytime import weekday
-from modules.mytime import shamsi
 from modules.wiktionary import wikt
+from other import withoutPhrase
 
 
 class Gholam(irc.IRCClient):
@@ -47,26 +46,20 @@ class Gholam(irc.IRCClient):
                 send = ""
                 print "%s - %s: %s" % (time(), id, msg,)
 
-                msgDic = {
-                     "!help":  "%s, https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands" % id,
-                     "!about": "%s, My name is Gholam, I was born in 28 December 2010 and I'm written in python." % id,
-                     "!date": "%s, %s - %s" % (id, weekday(), shamsi()),
-                     "!time": "%s, %s" % (id, time()),
-                     "!author": "%s, Amin Oruji - aminpy@gmail.com" % id 
-                }
-
-                send = msgDic.get(msg)
-                self.msg(channel, send)
-                     
-                if msg.startswith(".web "):
-                    url = "http://www.google.com/search?q=%s" % ebarat
-                    send = "%s, %s" % (id, url.replace(" ", "+"))
+# without phrase commands              
+                if msg.startswith("!"):
+                    send = withoutPhrase(msg, channel, id)
                     self.msg(channel, send)
-    
+                    
+# ping bot
                 elif msg.startswith("%s, " % self.nickname) or msg.startswith("%s: " % self.nickname):
                     send = "help -> https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands"
                     self.msg(id, send)
-                    print "%s - %s: >%s<, %s" % (time(), self.nickname, id, send) 
+                    
+                elif msg.startswith(".web "):
+                    url = "http://www.google.com/search?q=%s" % ebarat
+                    send = "%s, %s" % (id, url.replace(" ", "+"))
+                    self.msg(channel, send)
 
                 elif msg.startswith(".w "):
                     msg = msg.split()[1]
