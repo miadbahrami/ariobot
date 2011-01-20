@@ -62,11 +62,13 @@ class Gholam(irc.IRCClient):
                 if msg.startswith("!"):
                     send = self.withoutPhrase(msg, channel, id)
                     self.msg(channel, send)
-                    
+
 # ping bot
                 elif msg.startswith("%s, " % self.nickname) or msg.startswith("%s: " % self.nickname):
                     send = self.help
                     self.msg(id, send)
+                    print "%s-%s: >%s<, %s" % (strftime("%X"), self.nickname, id, send)
+                    send = ""
 
 # with phrase commands
                 elif msg.startswith("."):
@@ -89,7 +91,7 @@ class Gholam(irc.IRCClient):
                         url = "http://www.google.com/search?q=%s&tbs=vid:1" % ebarat
                         send = "%s, %s" % (id, url.replace(" ", "+"))
                         self.msg(channel, send)
-                        
+
 # Google Translate
                     elif msg.startswith(".") and msg[5] == " ":
                         msg = msg.split(" ")[0]
@@ -108,7 +110,7 @@ class Gholam(irc.IRCClient):
                 if id != "ChanServ" and id != "NickServ":
                     self.msg(id, send)
                     print "%s-%s: >%s<, %s" % (strftime("%X"), self.nickname, id, send)
-                    
+
     def pasteIt(self):
         f = open("%s/help.txt" % sys.path[0], "r")
         data = f.read()
@@ -116,9 +118,8 @@ class Gholam(irc.IRCClient):
         return paste(data, "Python")
     
     def withoutPhrase(self, msg, channel, id):
-        
         msgDic = {
-            "!help":  "%s, %s" % (id, "%splain/" % self.help),
+            "!help":  "%s, %s" % (id, self.help),
             "!about": "%s, My name is Gholam, I was born in 28 December 2010 and I'm written in python." % id,
             "!date": "%s, %s - %s" % (id, weekday(), shamsi()),
             "!time": "%s, %s" % (id, strftime("%X")),
