@@ -12,9 +12,9 @@ from browser import Browser, BrowserError
 from urllib import quote_plus
 
 try:
-    import json
+    import json #@UnusedImport
 except:
-    import simplejson as json
+    import simplejson as json #@Reimport
 
 
 class TranslationError(Exception):

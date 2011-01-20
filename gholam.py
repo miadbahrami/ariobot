@@ -13,8 +13,10 @@
 from twisted.words.protocols import irc
 from modules.translate import Translator
 from modules.wiktionary import wikt
-from other import withoutPhrase, pasteIt
 from time import strftime
+from modules.dpaste import paste
+import sys
+from modules.mytime import shamsi, weekday
 
 class Gholam(irc.IRCClient):
     help = ""
@@ -28,10 +30,11 @@ class Gholam(irc.IRCClient):
     def signedOn(self):
         self.join(self.factory.channel)
         # raf'e khali budan be ellate inke run ghable in mozu run shode
-        pasteIt()
+        self.pasteIt()
         print "%s - ba nick e %s be server vasl shodam." % (strftime("%X"), self.nickname,)
 
     def joined(self, channel):
+        self.pasteIt()
         self.isChannel = True
         self.channel = channel
         print "%s - Raftam tu %s." % (strftime("%X"), channel,)
@@ -46,8 +49,8 @@ class Gholam(irc.IRCClient):
         self.msg(self.channel, "%s, shakh shodi nick avaz mikoni?!" % newname)
 
     def privmsg(self, user, channel, msg):
-        if not self.help and pasteIt():
-            self.help = "%splain/" % pasteIt()
+        if not self.help and self.pasteIt():
+            self.help = "%splain/" % self.pasteIt()
         if self.isChannel:
             id = user.split("!")[0]
             if channel[0] == "#":
@@ -57,7 +60,7 @@ class Gholam(irc.IRCClient):
 
 # without phrase commands              
                 if msg.startswith("!"):
-                    send = withoutPhrase(msg, channel, id)
+                    send = self.withoutPhrase(msg, channel, id)
                     self.msg(channel, send)
                     
 # ping bot
@@ -105,3 +108,22 @@ class Gholam(irc.IRCClient):
                 if id != "ChanServ" and id != "NickServ":
                     self.msg(id, send)
                     print "%s-%s: >%s<, %s" % (strftime("%X"), self.nickname, id, send)
+                    
+    def pasteIt(self):
+        f = open("%s/help.txt" % sys.path[0], "r")
+        data = f.read()
+        f.close() 
+        return paste(data, "Python")
+    
+    def withoutPhrase(self, msg, channel, id):
+        
+        msgDic = {
+            "!help":  "%s, %s" % (id, "%splain/" % self.help),
+            "!about": "%s, My name is Gholam, I was born in 28 December 2010 and I'm written in python." % id,
+            "!date": "%s, %s - %s" % (id, weekday(), shamsi()),
+            "!time": "%s, %s" % (id, strftime("%X")),
+            "!author": "%s, Amin Oruji - aminpy@gmail.com" % id 
+        }
+        
+        return msgDic.get(msg)
+

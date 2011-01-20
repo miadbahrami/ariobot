@@ -49,7 +49,7 @@ class PoolHTTPConnection(httplib.HTTPConnection):
         msg = "getaddrinfo returns an empty list"
         for res in socket.getaddrinfo(self.host, self.port, 0,
                                       socket.SOCK_STREAM):
-            af, socktype, proto, canonname, sa = res
+            af, socktype, proto, canonname, sa = res #@UnusedVariable
             try:
                 self.sock = socket.socket(af, socktype, proto)
                 if self.debuglevel > 0:

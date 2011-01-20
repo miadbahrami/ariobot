@@ -73,7 +73,7 @@ def format(word, definitions, number=2):
 
 def w(phenny, input): 
     word = input.group(2)
-    etymology, definitions = wiktionary(word)
+    etymology, definitions = wiktionary(word) #@UnusedVariable
     if not definitions: 
         phenny.say("Couldn't get any definitions for %s." % word)
         return
