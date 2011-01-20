@@ -1,0 +1,19 @@
++===============+=========================+
+|    COMMAND    |       EXPLANATION       |
++===============+=========================+
+| !help         |  Command List           |
+| !about        |  About Me               |
+| !time         |  Time                   |
+| !date         |  Date                   |
+| !author       |  About Author           |
+|               |                         |
+| .w phrase     |  Wiktionary Search      |
+| .web phrase   |  Google Website Search  |
+| .img phrase   |  Google Images Search   |
+| .vid phrase   |  Google Videos Search   |
+|               |                         |
+| .enfa phrase  |  English to Farsi       |
+| .faen phrase  |  Farsi to English       |
+| .defa phrase  |  German to Farsi        |
+| .fade phrase  |  Farsi to German        |
++===============+=========================+

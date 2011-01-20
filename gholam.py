@@ -13,7 +13,7 @@
 from twisted.words.protocols import irc
 from modules.translate import Translator
 from modules.wiktionary import wikt
-from other import withoutPhrase
+from other import withoutPhrase, pasteIt
 from time import strftime
 
 class Gholam(irc.IRCClient):
@@ -26,6 +26,7 @@ class Gholam(irc.IRCClient):
 
     def signedOn(self):
         self.join(self.factory.channel)
+        pasteIt()
         print "%s - ba nick e %s be server vasl shodam." % (strftime("%X"), self.nickname,)
 
     def joined(self, channel):
