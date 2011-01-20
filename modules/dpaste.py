@@ -37,7 +37,7 @@ def res(result):
     global pp
     pp = result
 
-def paste(dd, ll):   
+def paste(dd, ll):
     d = dpaste(dd, language=ll)
     d.addBoth(res)
     return pp

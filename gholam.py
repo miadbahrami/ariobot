@@ -17,6 +17,7 @@ from other import withoutPhrase, pasteIt
 from time import strftime
 
 class Gholam(irc.IRCClient):
+    help = ""
     isChannel = False
 
     def _get_nickname(self):
@@ -26,6 +27,7 @@ class Gholam(irc.IRCClient):
 
     def signedOn(self):
         self.join(self.factory.channel)
+        # raf'e khali budan be ellate inke run ghable in mozu run shode
         pasteIt()
         print "%s - ba nick e %s be server vasl shodam." % (strftime("%X"), self.nickname,)
 
@@ -42,9 +44,10 @@ class Gholam(irc.IRCClient):
         
     def userRenamed(self, oldname, newname): 
         self.msg(self.channel, "%s, shakh shodi nick avaz mikoni?!" % newname)
-        
 
     def privmsg(self, user, channel, msg):
+        if not self.help and pasteIt():
+            self.help = "%splain/" % pasteIt()
         if self.isChannel:
             id = user.split("!")[0]
             if channel[0] == "#":
@@ -59,7 +62,7 @@ class Gholam(irc.IRCClient):
                     
 # ping bot
                 elif msg.startswith("%s, " % self.nickname) or msg.startswith("%s: " % self.nickname):
-                    send = "https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands"
+                    send = self.help
                     self.msg(id, send)
 
 # with phrase commands
@@ -98,7 +101,7 @@ class Gholam(irc.IRCClient):
 
             else:
                 print "%s-%s: >%s<, %s" % (strftime("%X"), id, self.nickname, msg)
-                send = "https://bitbucket.org/aminpy/gholam/issue/1/gholam-commands"
+                send = self.help
                 if id != "ChanServ" and id != "NickServ":
                     self.msg(id, send)
                     print "%s-%s: >%s<, %s" % (strftime("%X"), self.nickname, id, send)
