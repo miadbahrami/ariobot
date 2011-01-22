@@ -24,7 +24,7 @@ class Gholam(irc.IRCClient):
 
     def _get_nickname(self):
         return self.factory.nickname
-    
+
     nickname = property(_get_nickname)
 
     def signedOn(self):
@@ -42,15 +42,26 @@ class Gholam(irc.IRCClient):
     def left(self):
         print "left shodam :D"
         
-    def pong(self):
-        print "pong :D:D"
+    def irc_PING(self, prefix, params):
+        print "irc_PING"
         
+    def userJoined(self, user, channel):
+        print "%s Joined to %s." % (user, channel)
+
+    def userLeft(self, user, channel):
+        print "%s left %s." % (user, channel)
+
+    def userQuit(self, user, quitMessage):
+        print "%s quited (%s)." % (user, quitMessage)
+
     def userRenamed(self, oldname, newname): 
         self.msg(self.channel, "%s, shakh shodi nick avaz mikoni?!" % newname)
 
     def privmsg(self, user, channel, msg):
+        
         if not self.help and self.pasteIt():
             self.help = "%splain/" % self.pasteIt()
+            
         if self.isChannel:
             id = user.split("!")[0]
             if channel[0] == "#":
@@ -72,35 +83,36 @@ class Gholam(irc.IRCClient):
 
 # with phrase commands
                 elif msg.startswith("."):
-                    if msg.startswith(".web "):
-                        url = "http://www.google.com/search?q=%s" % ebarat
-                        send = "%s, %s" % (id, url.replace(" ", "+"))
-                        self.msg(channel, send)
-    
-                    elif msg.startswith(".w "):
-                        msg = msg.split()[1]
-                        send = "%s, %s" % (id, wikt(msg))
-                        self.msg(channel, send)
-                        
-                    elif msg.startswith(".img "):
-                        url = "http://www.google.com/images?q=%s" % ebarat
-                        send = "%s, %s" % (id, url.replace(" ", "+"))
-                        self.msg(channel, send)
-        
-                    elif msg.startswith(".vid "):
-                        url = "http://www.google.com/search?q=%s&tbs=vid:1" % ebarat
-                        send = "%s, %s" % (id, url.replace(" ", "+"))
-                        self.msg(channel, send)
-
+                    
 # Google Translate
-                    elif msg.startswith(".") and msg[5] == " ":
+                    if msg.startswith(".") and msg[5] == " ":
                         msg = msg.split(" ")[0]
                         lt = msg[1:3]
                         lf = msg[-2:]
                         matn = Translator().translate(ebarat, lf, lt).encode("utf-8")
                         send = "%s, %s" % (id, matn)
                         self.msg(channel, send)
-    
+                        
+                    elif msg.startswith(".web "):
+                        url = "http://www.google.com/search?q=%s" % ebarat
+                        send = "%s, %s" % (id, url.replace(" ", "+"))
+                        self.msg(channel, send)
+
+                    elif msg.startswith(".w "):
+                        msg = msg.split()[1]
+                        send = "%s, %s" % (id, wikt(msg))
+                        self.msg(channel, send)
+
+                    elif msg.startswith(".img "):
+                        url = "http://www.google.com/images?q=%s" % ebarat
+                        send = "%s, %s" % (id, url.replace(" ", "+"))
+                        self.msg(channel, send)
+
+                    elif msg.startswith(".vid "):
+                        url = "http://www.google.com/search?q=%s&tbs=vid:1" % ebarat
+                        send = "%s, %s" % (id, url.replace(" ", "+"))
+                        self.msg(channel, send)
+                        
                 if send:
                     print "%s-%s: %s" % (strftime("%X"), self.nickname, send)
 
@@ -116,7 +128,7 @@ class Gholam(irc.IRCClient):
         data = f.read()
         f.close() 
         return paste(data, "Python")
-    
+
     def withoutPhrase(self, msg, channel, id):
         msgDic = {
             "!help":  "%s, %s" % (id, self.help),
@@ -125,6 +137,5 @@ class Gholam(irc.IRCClient):
             "!time": "%s, %s" % (id, strftime("%X")),
             "!author": "%s, Amin Oruji - aminpy@gmail.com" % id 
         }
-        
-        return msgDic.get(msg)
 
+        return msgDic.get(msg)
