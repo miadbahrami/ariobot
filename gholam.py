@@ -43,6 +43,7 @@ class Gholam(irc.IRCClient):
         print "left shodam :D"
         
     def irc_PING(self, prefix, params):
+        print "PING"
         self.sendLine("PONG %s" % params[-1])
         print "PONG %s" % params[-1]
         
