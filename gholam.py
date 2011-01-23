@@ -42,11 +42,6 @@ class Gholam(irc.IRCClient):
     def left(self):
         print "left shodam :D"
         
-    def irc_PING(self, prefix, params):
-        print "PING"
-        self.sendLine("PONG %s" % params[-1])
-        print "PONG %s" % params[-1]
-        
     def userJoined(self, user, channel):
         print "%s Joined to %s." % (user, channel)
 
@@ -54,7 +49,7 @@ class Gholam(irc.IRCClient):
         print "%s left %s." % (user, channel)
 
     def userQuit(self, user, quitMessage):
-        print "%s quited (%s)." % (user, quitMessage)
+        print "%s has quit (%s)." % (user, quitMessage)
 
     def userRenamed(self, oldname, newname): 
         print "%s changed nick to %s." % (oldname, newname)
