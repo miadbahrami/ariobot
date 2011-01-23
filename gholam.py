@@ -31,28 +31,28 @@ class Gholam(irc.IRCClient):
         self.join(self.factory.channel)
         # raf'e khali budan be ellate inke run ghable in mozu run shode
         self.pasteIt()
-        print "%s - ba nick e %s be server vasl shodam." % (strftime("%X"), self.nickname,)
+        print "%s-ba nick e %s be server vasl shodam." % (strftime("%X"), self.nickname,)
 
     def joined(self, channel):
         self.pasteIt()
         self.isChannel = True
         self.channel = channel
-        print "%s - Raftam tu %s." % (strftime("%X"), channel,)
+        print "%s-Raftam tu %s." % (strftime("%X"), channel,)
         
     def left(self):
         print "left shodam :D"
         
     def userJoined(self, user, channel):
-        print "%s Joined to %s." % (user, channel)
+        print "%s-%s Joined to %s." % (strftime("%X"), user, channel)
 
     def userLeft(self, user, channel):
-        print "%s left %s." % (user, channel)
+        print "%s-%s left %s." % (strftime("%X"), user, channel)
 
     def userQuit(self, user, quitMessage):
-        print "%s has quit (%s)." % (user, quitMessage)
+        print "%s-%s has quit (%s)." % (strftime("%X"), user, quitMessage)
 
     def userRenamed(self, oldname, newname): 
-        print "%s changed nick to %s." % (oldname, newname)
+        print "%s-%s changed nick to %s." % (strftime("%X"), oldname, newname)
 
     def privmsg(self, user, channel, msg):
         
@@ -72,7 +72,7 @@ class Gholam(irc.IRCClient):
                     self.msg(channel, send)
 
 # ping bot
-                elif msg.startswith("%s, " % self.nickname) or msg.startswith("%s: " % self.nickname):
+                elif msg.startswith("%s, " % self.nickname) or msg.startswith("%s: " % self.nickname) or " %s " % self.nickname in msg:
                     send = self.help
                     self.msg(id, send)
                     print "%s-%s: >%s<, %s" % (strftime("%X"), self.nickname, id, send)
