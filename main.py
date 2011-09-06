@@ -7,6 +7,6 @@ if __name__ == "__main__":
     if not username and not channel:
         username = "harchi"
         channel = "harchi"
-        
+
     reactor.connectTCP('irc.freenode.net', 6667, GholamFactory(channel, username)) #@UndefinedVariable
     reactor.run() #@UndefinedVariable
